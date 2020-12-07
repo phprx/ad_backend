@@ -1,5 +1,6 @@
 from django.db import models
 
+
 # Create your models here.
 
 
@@ -68,3 +69,10 @@ class Question11(models.Model):
     id = models.IntegerField(primary_key=True)
     par_word = models.CharField(max_length=20)
     answer = models.CharField(max_length=20)
+
+
+# SAS、SDS量表
+class Scale(models.Model):
+    id = models.IntegerField(primary_key=True)
+    sas_score = models.IntegerField()
+    sds_score = models.IntegerField()
