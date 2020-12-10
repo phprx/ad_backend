@@ -16,6 +16,8 @@ import os
 #     print(str(q.description) + ' ' + str(q.score) + ' ' + str(q.id1) + ' ' + str(q.num_series1) + ' ' + str(q.id2) + ' ' + str(q.num_series2))
 #     return HttpResponse("hello world")
 
+'''获取openid
+    目前的appid为温健的appid'''
 def getOpenid(request):
     resp = None
     # print(request.session['test'])      # 测试sessionid是否正常使用
@@ -45,6 +47,8 @@ def login(request):
         print(openId)
     return HttpResponse()
 
+'''目前存储2 13.1音频文件
+    1 7 8 13 14 非文件数据'''
 def multifile(request):
     print('access successfully')
     if request.method == 'GET':
@@ -86,7 +90,7 @@ def multifile(request):
         request.session[index] = path + name
     return HttpResponse()
 
-
+'''接收量表传过来的分数'''
 def sdsResolve(request):
     if request.method == 'GET':
         '''取出量表的代号和相应的分值'''
