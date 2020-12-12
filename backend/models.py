@@ -74,5 +74,5 @@ class Question11(models.Model):
 # SAS、SDS量表
 class Scale(models.Model):
     id = models.IntegerField(primary_key=True)
-    sas_score = models.IntegerField()
-    sds_score = models.IntegerField()
+    sas_score = models.IntegerField(null=True)
+    sds_score = models.IntegerField(null=True)

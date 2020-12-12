@@ -9,7 +9,6 @@ from django.shortcuts import render
 from backend.questiones import *
 import os
 
-
 # 测试接口
 # def index(request):
 #     q = Question6().getRandomQuestionfromDb()
@@ -18,6 +17,8 @@ import os
 
 '''获取openid
     目前的appid为温健的appid'''
+
+
 def getOpenid(request):
     resp = None
     # print(request.session['test'])      # 测试sessionid是否正常使用
@@ -27,7 +28,8 @@ def getOpenid(request):
                    'js_code': request.GET['code'],
                    'grant_type': 'authorization_code'}
         ip = 'https://api.weixin.qq.com/sns/jscode2session'
-        url = ip + "?appid=" + payload['appid'] + "&secret=" + payload['secret'] + "&js_code=" + payload['js_code'] + "&grant_type=authorization_code"
+        url = ip + "?appid=" + payload['appid'] + "&secret=" + payload['secret'] + "&js_code=" + payload[
+            'js_code'] + "&grant_type=authorization_code"
         resp = requests.post(url)
 
         print("wenjianshuaige" + resp.text)
@@ -47,8 +49,9 @@ def login(request):
         print(openId)
     return HttpResponse()
 
-'''目前存储2 13.1音频文件
-    1 7 8 13 14 非文件数据'''
+
+# 目前存储2 13.1音频文件
+# 1 7 8 13 14 非文件数据
 def multifile(request):
     print('access successfully')
     if request.method == 'GET':
@@ -90,14 +93,17 @@ def multifile(request):
         request.session[index] = path + name
     return HttpResponse()
 
-'''接收量表传过来的分数'''
+
+# 接收量表传过来的分数
 def sdsResolve(request):
     if request.method == 'GET':
+        openId = request.session['openId']
         '''取出量表的代号和相应的分值'''
         score = request.GET.get("sc")
-        testid = request.GET.get("id")
-        print(score + testid)
-
+        type_id = request.GET.get("id")
+        # sas(焦虑症)：102    sds(抑郁症)：104
+        if type_id == '102':
+            models.Scale.objects.update_or_create(defaults={'sas_score': score}, id=openId)
+        elif type_id == '104':
+            models.Scale.objects.update_or_create(defaults={'sds_score': score}, id=openId)
     return HttpResponse()
-
-
