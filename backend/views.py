@@ -46,7 +46,7 @@ def login(request):
     if request.method == 'GET':
         openId = request.GET.get('openId')
         request.session['openId'] = openId  # 登录时将用户的openId存入session
-        print(openId)
+        print(request.session['openId'])
     return HttpResponse()
 
 
@@ -98,6 +98,7 @@ def multifile(request):
 def sdsResolve(request):
     if request.method == 'GET':
         openId = request.session['openId']
+        print(openId)
         '''取出量表的代号和相应的分值'''
         score = request.GET.get("sc")
         type_id = request.GET.get("id")
