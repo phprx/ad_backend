@@ -1,6 +1,6 @@
 import json
 import time
-
+from backend import questionUtils
 import requests
 from django.http import HttpResponse
 from django.shortcuts import render
@@ -56,9 +56,14 @@ def multifile(request):
     print('access successfully')
     if request.method == 'GET':
         q1 = request.GET.get('1')
+        openId = request.GET.get('openId')
+        score = questionUtils.Q1score().string_cmp(q1)
+        print(score)
+        models.Q1Res.objects.update_or_create(defaults={'string_from_patient': q1,'score':score}, openid=openId)
         print(str(q1))
     else:
         n = str(request.POST.get('NUMBER'))
+        openid = request.POST.get('openid')
         print('第' + n + '个文件上传成功')
         if not os.path.exists('moca/' + 'png_resource' + '/'):
             os.makedirs('moca/' + 'png_resource' + '/')
@@ -90,14 +95,14 @@ def multifile(request):
         for chunk in report_file.chunks():
             fw.write(chunk)
         fw.close()
-        request.session[index] = path + name
+        models.Q2Res.objects.update_or_create(defaults={'filePath': path + name}, openid=openid)
     return HttpResponse()
 
 
 # 接收量表传过来的分数
 def sdsResolve(request):
     if request.method == 'GET':
-        openId = request.session['openId']
+        openId = request.GET.get('openId')
         print(openId)
         '''取出量表的代号和相应的分值'''
         score = request.GET.get("sc")
