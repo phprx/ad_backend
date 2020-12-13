@@ -56,14 +56,24 @@ def multifile(request):
     print('access successfully')
     if request.method == 'GET':
         q1 = request.GET.get('1')
+        # q7 = request.GET.get('7')
+        # q8 = request.GET.get('8')
+        # q12 = request.GET.get('12')
+        # q13 = request.GET.get('13')
         openId = request.GET.get('openId')
+
+
         score = questionUtils.Q1score().string_cmp(q1)
-        print(score)
-        models.Q1Res.objects.update_or_create(defaults={'string_from_patient': q1,'score':score}, openid=openId)
+        # 除第一题有评分之外，其他题目评分还未处理
+        models.Q1Res.objects.update_or_create(defaults={'string_from_patient': q1, 'score':score}, openid=openId)
+        # models.Q7Res.objects.update_or_create(defaults={'result_sequence': str(q7)}, openid=openId)
+        # models.Q8Res.objects.update_or_create(defaults={'result': str(q8), }, openid=openId)
         print(str(q1))
+
     else:
         n = str(request.POST.get('NUMBER'))
         openid = request.POST.get('openid')
+        print("openid" + " " + str(openid))
         print('第' + n + '个文件上传成功')
         if not os.path.exists('moca/' + 'png_resource' + '/'):
             os.makedirs('moca/' + 'png_resource' + '/')
@@ -72,30 +82,61 @@ def multifile(request):
         report_file = request.FILES.get('file')
         timestamp = str(round(time.time()))
 
+        '''只有第一个是图片文件，剩余的都是音频文件'''
         fileType = 'png'
         if int(n) >= 1:
             fileType = 'mp3'
 
+        '''n为前端setStorage是的序号，index为每题对应的题号'''
         index = '1'
         if int(n) == 0:
-            index = '1-1'
-        elif int(n) == 1:
-            index = '1-2'
-        elif int(n) == 2:
-            index = '1-3'
-        elif int(n) == 3:
             index = '3-1'
-        elif int(n) == 4:
+        elif int(n) == 1:
             index = '3-2'
+        elif int(n) == 2:
+            index = '3-3'
+        elif int(n) == 3:
+            index = '2'
+        elif int(n) == 4:
+            index = '6.1'
         elif int(n) == 5:
-            index = '4-1'
+            index = '6.2'
+        elif int(n) == 6:
+            index = '12-1'
+        elif int(n) == 7:
+            index = '9.1'
+        elif int(n) == 8:
+            index = '9.2'
+        elif int(n) == 9:
+            index = '10'
+        elif int(n) == 10:
+            index = '11.1'
+        elif int(n) == 11:
+            index = '11.2'
+        elif int(n) == 12:
+            index = '4'
+        elif int(n) == 13:
+            index = '5'
         name = index + '_' + timestamp + '.' + fileType
         path = 'moca/' + fileType + '_resource' + '/'
         fw = open(path + name, 'wb+')
         for chunk in report_file.chunks():
             fw.write(chunk)
         fw.close()
-        models.Q2Res.objects.update_or_create(defaults={'filePath': path + name}, openid=openid)
+        print("finished writing file")
+        print(index, type(index))
+        print("\n")
+
+        '''目前可以穿2、4、5号文件，剩余的需要存数据库的自行添加'''
+        if index == '2':
+            print("question2:" + path + name)
+            models.Q2Res.objects.update_or_create(defaults={'filePath': path + name}, openid=openid)
+        elif index == '4':
+            print("question4:" + path + name)
+            models.Q4Res.objects.update_or_create(defaults={'filePath': path + name}, openid=openid)
+        elif index == '5':
+            print("question5:" + path + name)
+            models.Q5Res.objects.update_or_create(defaults={'filePath': path + name}, openid=openid)
     return HttpResponse()
 
 
@@ -107,6 +148,7 @@ def sdsResolve(request):
         '''取出量表的代号和相应的分值'''
         score = request.GET.get("sc")
         type_id = request.GET.get("id")
+        print(score + " " + type_id)
         # sas(焦虑症)：102    sds(抑郁症)：104
         if type_id == '102':
             models.Scale.objects.update_or_create(defaults={'sas_score': score}, id=openId)

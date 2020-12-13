@@ -3,6 +3,9 @@
 # @Site    : 
 # @File    : questionUtils.py
 # @Software: PyCharm
+
+import speech_recognition as sr
+
 class Q1score:
     def __init__(self):
         self.score = 0
@@ -12,4 +15,6 @@ class Q1score:
         if anwstring == self.string:
             self.score = 1
         return self.score
+
+# 语音转文字的工具类
 
