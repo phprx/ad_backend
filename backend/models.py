@@ -95,6 +95,7 @@ class Q2Res(models.Model):
     score = models.IntegerField(null=True)
     filePath = models.TextField(null=True)
 
+
 # 题目3：画钟
 
 
@@ -141,15 +142,23 @@ class Q8Res(models.Model):
     result = models.TextField(null=True)
 
 
-# 题目9：重复句子，前端传语音，后端转文字，后端转文本，保存文本和录音；
-class Q9Res(models.Model):
+# 题目9.1：重复句子，前端传语音，后端转文字，后端转文本，保存文本和录音；
+class Q9_1Res(models.Model):
     openid = models.CharField(primary_key=True, max_length=50)
     filePath = models.TextField(null=True)
     audio_to_text = models.TextField(null=True)
     score = models.IntegerField(null=True)
 
 
-# 题目10：求同存异，前端传语音，后端转文字，后端转文本，保存文本和录音
+# 题目9.2：重复句子，前端传语音，后端转文字，后端转文本，保存文本和录音；
+class Q9_2Res(models.Model):
+    openid = models.CharField(primary_key=True, max_length=50)
+    filePath = models.TextField(null=True)
+    audio_to_text = models.TextField(null=True)
+    score = models.IntegerField(null=True)
+
+
+# 题目10：一分钟说动物名，前端传语音，后端转文本，保存文本和录音
 class Q10Res(models.Model):
     openid = models.CharField(primary_key=True, max_length=50)
     filePath = models.TextField(null=True)
@@ -157,8 +166,16 @@ class Q10Res(models.Model):
     score = models.IntegerField(null=True)
 
 
-# 题目11：一分钟说动物名，前端传语音，后端转文本，保存文本和录音
-class Q11Res(models.Model):
+# 题目11.1：求同存异，前端传语音，后端转文字，后端转文本，保存文本和录音
+class Q11_1Res(models.Model):
+    openid = models.CharField(primary_key=True, max_length=50)
+    filePath = models.TextField(null=True)
+    audio_to_text = models.TextField(null=True)
+    score = models.IntegerField(null=True)
+
+
+# 题目11.2：求同存异，前端传语音，后端转文字，后端转文本，保存文本和录音
+class Q11_2Res(models.Model):
     openid = models.CharField(primary_key=True, max_length=50)
     filePath = models.TextField(null=True)
     audio_to_text = models.TextField(null=True)

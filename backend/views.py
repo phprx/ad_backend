@@ -9,12 +9,6 @@ from django.shortcuts import render
 from backend.questiones import *
 import os
 
-# 测试接口
-# def index(request):
-#     q = Question6().getRandomQuestionfromDb()
-#     print(str(q.description) + ' ' + str(q.score) + ' ' + str(q.id1) + ' ' + str(q.num_series1) + ' ' + str(q.id2) + ' ' + str(q.num_series2))
-#     return HttpResponse("hello world")
-
 '''获取openid
     目前的appid为温健的appid'''
 
@@ -24,7 +18,10 @@ def getOpenid(request):
     # print(request.session['test'])      # 测试sessionid是否正常使用
     # request.session['test'] = 'session正常使用'  # 测试sessionid是否正常使用
     if request.method == 'GET':
-        payload = {'appid': 'wx7955e3cc1d058951', 'secret': '1707aa88262e8dc354d91283869ea7a5',
+        # payload = {'appid': 'wx7955e3cc1d058951', 'secret': '1707aa88262e8dc354d91283869ea7a5',
+        #            'js_code': request.GET['code'],
+        #            'grant_type': 'authorization_code'}
+        payload = {'appid': 'wx27a50c62773be8a2', 'secret': '2eab9b7a6e5c17e32d07efb8637770e4',  # 黄鹏测试appid和secret
                    'js_code': request.GET['code'],
                    'grant_type': 'authorization_code'}
         ip = 'https://api.weixin.qq.com/sns/jscode2session'
@@ -50,26 +47,37 @@ def login(request):
     return HttpResponse()
 
 
-# 目前存储2 13.1音频文件
-# 1 7 8 13 14 非文件数据
 def multifile(request):
     print('access successfully')
+    # GET请求用于获取前端传值（非文件类型请求），并完成每道题的打分。
+    # 通过questionUtils中针对每道题设计的打分类提供的getScore()方法给出分值。
     if request.method == 'GET':
         q1 = request.GET.get('1')
-        # q7 = request.GET.get('7')
-        # q8 = request.GET.get('8')
-        # q12 = request.GET.get('12')
-        # q13 = request.GET.get('13')
+        q7 = request.GET.get('7')
+        q8 = request.GET.get('8')
+        q12 = request.GET.get('12')
+        q13 = request.GET.get('13')
         openId = request.GET.get('openId')
 
+        # 第1题计算分数并将分数与答案存入数据库
+        q1_score = questionUtils.Q1score().getScore(q1)
+        print('第1题得分：' + str(q1_score))
+        models.Q1Res.objects.update_or_create(defaults={'string_from_patient': q1, 'score': q1_score}, openid=openId)
 
-        score = questionUtils.Q1score().string_cmp(q1)
-        # 除第一题有评分之外，其他题目评分还未处理
-        models.Q1Res.objects.update_or_create(defaults={'string_from_patient': q1, 'score':score}, openid=openId)
-        # models.Q7Res.objects.update_or_create(defaults={'result_sequence': str(q7)}, openid=openId)
-        # models.Q8Res.objects.update_or_create(defaults={'result': str(q8), }, openid=openId)
+        # 第2题计算分数存入数据库
+        q2_score = questionUtils.Q2score(models.Q2Res.objects.get(openid=openId).filePath).getScore()
+        print('第2题得分：' + str(q2_score))
+        models.Q2Res.objects.filter(openid=openId).update(score=q2_score)
+
+        # 第7题计算分数并将分数与答案存入数据库
+
+        # 第8题计算分数并将分数与答案存入数据库
+
+        # 第13题计算分数并将分数与答案存入数据库
+
         print(str(q1))
 
+    # POST请求用于传输文件（前端首先使用POST方法上传所有文件数据到服务器）
     else:
         n = str(request.POST.get('NUMBER'))
         openid = request.POST.get('openid')
@@ -82,27 +90,29 @@ def multifile(request):
         report_file = request.FILES.get('file')
         timestamp = str(round(time.time()))
 
-        '''只有第一个是图片文件，剩余的都是音频文件'''
-        fileType = 'png'
-        if int(n) >= 1:
-            fileType = 'mp3'
+        '''区分文件类型'''
+        fileType = 'mp3'
 
         '''n为前端setStorage是的序号，index为每题对应的题号'''
-        index = '1'
+        index = None
         if int(n) == 0:
             index = '3-1'
+            fileType = 'png'
         elif int(n) == 1:
             index = '3-2'
+            fileType = 'png'
         elif int(n) == 2:
             index = '3-3'
+            fileType = 'png'
         elif int(n) == 3:
             index = '2'
+            fileType = 'png'
         elif int(n) == 4:
             index = '6.1'
         elif int(n) == 5:
             index = '6.2'
         elif int(n) == 6:
-            index = '12-1'
+            index = '12.1'
         elif int(n) == 7:
             index = '9.1'
         elif int(n) == 8:
@@ -127,7 +137,6 @@ def multifile(request):
         print(index, type(index))
         print("\n")
 
-        '''目前可以穿2、4、5号文件，剩余的需要存数据库的自行添加'''
         if index == '2':
             print("question2:" + path + name)
             models.Q2Res.objects.update_or_create(defaults={'filePath': path + name}, openid=openid)
@@ -137,6 +146,30 @@ def multifile(request):
         elif index == '5':
             print("question5:" + path + name)
             models.Q5Res.objects.update_or_create(defaults={'filePath': path + name}, openid=openid)
+        elif index == '6.1':
+            print("question6-1:" + path + name)
+            models.Q6Res.objects.update_or_create(defaults={'normal_audio_filePath': path + name}, openid=openid)
+        elif index == '6.2':
+            print("question6-2:" + path + name)
+            models.Q6Res.objects.update_or_create(defaults={'reverse_audio_filePath': path + name}, openid=openid)
+        elif index == '9.1':
+            print("question9.1:" + path + name)
+            models.Q9_1Res.objects.update_or_create(defaults={'filePath': path + name}, openid=openid)
+        elif index == '9.2':
+            print("question9.2:" + path + name)
+            models.Q9_2Res.objects.update_or_create(defaults={'filePath': path + name}, openid=openid)
+        elif index == '10':
+            print("question10:" + path + name)
+            models.Q10Res.objects.update_or_create(defaults={'filePath': path + name}, openid=openid)
+        elif index == '11.1':
+            print("question11.1:" + path + name)
+            models.Q11_1Res.objects.update_or_create(defaults={'filePath': path + name}, openid=openid)
+        elif index == '11.2':
+            print("question11.2:" + path + name)
+            models.Q11_2Res.objects.update_or_create(defaults={'filePath': path + name}, openid=openid)
+        elif index == '12.1':
+            print("question12.1:" + path + name)
+            models.Q12Res.objects.update_or_create(defaults={'filePath': path + name}, openid=openid)
     return HttpResponse()
 
 
