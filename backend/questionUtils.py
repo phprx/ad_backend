@@ -5,7 +5,11 @@
 # @Software: PyCharm
 
 # import speech_recognition as sr
-from backend.AI_module.prediction import predict_picture
+# from backend.AI_module.prediction import predict_picture
+import json
+import difflib
+
+from backend import models
 
 
 class Q1score:
@@ -25,8 +29,8 @@ class Q2score:
         self.image_path = image_path
 
     def getScore(self):
-        if predict_picture(self.image_path) == 1:
-            self.score = 1
+        # if predict_picture(self.image_path) == 1:
+        #     self.score = 1
         return self.score
 
 
@@ -57,17 +61,41 @@ class Q8score:
 
 
 class Q13score:
-    def __init__(self, response_json):
+    def __init__(self, response_json, openID):
         self.score = 0
         self.response_json = response_json
+        self.openID = openID
 
     def getScore(self):
         # 第一步：先将response_json反序列化为对象
-
+        ans_dic = json.loads(self.response_json)
         # 第二步：按每道题的判分逻辑进行判分，把结果分数赋值给score
+        patient_ans = ans_dic['answer']
+        correct_ans = ans_dic['cur_answer']
+        #  判断年份
+        similarity = difflib.SequenceMatcher(None, str(patient_ans['year']), str(correct_ans['year'])).quick_ratio()
+        self.score += (1 if similarity > 0.5 else 0)
+        # 判断月份
+        similarity = difflib.SequenceMatcher(None, str(patient_ans['month']),
+                                             str(correct_ans['month'] + 1)).quick_ratio()
+        self.score += (1 if similarity > 0.5 else 0)
+        # 判断日
+        similarity = difflib.SequenceMatcher(None, str(patient_ans['day']), str(correct_ans['date'])).quick_ratio()
+        self.score += (1 if similarity > 0.5 else 0)
+        # 判断周几
+        similarity = difflib.SequenceMatcher(None, str(patient_ans['week']), str(correct_ans['day'])).quick_ratio()
+        self.score += (1 if similarity > 0.5 else 0)
+        # 判断地点
+        similarity = difflib.SequenceMatcher(None, patient_ans['loc'], correct_ans['loc']).quick_ratio()
+        self.score += (1 if similarity > 0.5 else 0)
 
+        # 判断城市
+        similarity = difflib.SequenceMatcher(None, patient_ans['city'], correct_ans['city']).quick_ratio()
+        self.score += (1 if similarity > 0.5 else 0)
+        models.Q13Res.objects.update_or_create(
+            defaults={'answer_string': patient_ans, 'realAnswer_string': correct_ans}, score=self.score,
+            openid=self.openID)
         return self.score
-
 
 # 语音转文字的工具类
 

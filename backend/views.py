@@ -47,6 +47,15 @@ def login(request):
     return HttpResponse()
 
 
+# 自己测的13题,不用管
+def test(request):
+    if request.method == 'GET':
+        q13 = request.GET.get('13')
+        q13_score=questionUtils.Q13score(q13,'get').getScore()
+        print(q13_score)
+    return HttpResponse()
+
+
 def multifile(request):
     print('access successfully')
     # GET请求用于获取前端传值（非文件类型请求），并完成每道题的打分。
@@ -73,9 +82,11 @@ def multifile(request):
 
         # 第8题计算分数并将分数与答案存入数据库
 
-        # 第13题计算分数并将分数与答案存入数据库
+        # 第13题计算分数并将分数与答案存入数据库,Q13score存储结果到MySQL
+        q13_score=questionUtils.Q13score(q13,openId).getScore()
+        print('第13题得分：' + str(q13_score))
 
-        print(str(q1))
+
 
     # POST请求用于传输文件（前端首先使用POST方法上传所有文件数据到服务器）
     else:

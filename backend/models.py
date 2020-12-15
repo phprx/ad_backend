@@ -192,6 +192,6 @@ class Q12Res(models.Model):
 # 题目13：写年月日、星期几、地点、城市
 class Q13Res(models.Model):
     openid = models.CharField(primary_key=True, max_length=50)
-    answer_string = models.CharField(null=True, max_length=50)
-    realAnswer_string = models.CharField(null=True, max_length=50)
+    answer_string = models.CharField(null=True, max_length=500)
+    realAnswer_string = models.CharField(null=True, max_length=500)
     score = models.IntegerField(null=True)
