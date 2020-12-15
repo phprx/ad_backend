@@ -13,3 +13,18 @@ class Q1score:
             self.score = 1
         return self.score
 
+class Q12score:
+    def __init__(self):
+        self.score = 0
+
+    def string_cmp(self, anwstring):
+
+        return self.score
+
+
+class Q13score:
+    def __init__(self):
+        self.score = 0
+
+    def string_cmp(self, anwstring):
+        return self.score

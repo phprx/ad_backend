@@ -51,7 +51,7 @@ def login(request):
 
 
 # 目前存储2 13.1音频文件
-# 1 7 8 13 14 非文件数据
+# 1 7 8 12 14非文件数据
 def multifile(request):
     print('access successfully')
     if request.method == 'GET':
@@ -61,6 +61,9 @@ def multifile(request):
         print(score)
         models.Q1Res.objects.update_or_create(defaults={'string_from_patient': q1,'score':score}, openid=openId)
         print(str(q1))
+        q12=request.GET.get('12')
+        openId = request.GET.get('openId')
+        print(q12)
     else:
         n = str(request.POST.get('NUMBER'))
         openid = request.POST.get('openid')

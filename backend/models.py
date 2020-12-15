@@ -2,8 +2,6 @@ from django.db import models
 
 
 # Create your models here.
-
-
 # 测试表，不用管
 class UserInfo(models.Model):
     user = models.CharField(max_length=32)
@@ -95,6 +93,7 @@ class Q2Res(models.Model):
     score = models.IntegerField(null=True)
     filePath = models.TextField(null=True)
 
+
 # 题目3：画钟
 
 
@@ -163,11 +162,12 @@ class Q11Res(models.Model):
     score = models.IntegerField(null=True)
 
 
-# 题目12：回忆第五题所提到的5个词，前端传语音，后端转文本，保存文本和录音
+# 题目12：回忆第五题所提到的5个词，保存文本和录音
 class Q12Res(models.Model):
     openid = models.CharField(primary_key=True, max_length=50)
     filePath = models.TextField(null=True)
     audio_to_text = models.TextField(null=True)
+    sub_score = models.IntegerField(null=True)
     score = models.IntegerField(null=True)
 
 
