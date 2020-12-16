@@ -93,7 +93,7 @@ class Q13score:
         similarity = difflib.SequenceMatcher(None, patient_ans['city'], correct_ans['city']).quick_ratio()
         self.score += (1 if similarity > 0.5 else 0)
         models.Q13Res.objects.update_or_create(
-            defaults={'answer_string': patient_ans, 'realAnswer_string': correct_ans}, score=self.score,
+            defaults={'answer_string': patient_ans, 'realAnswer_string': correct_ans, 'score': self.score}, 
             openid=self.openID)
         return self.score
 
