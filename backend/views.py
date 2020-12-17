@@ -4,7 +4,6 @@ from backend import questionUtils
 import requests
 from django.http import HttpResponse
 from django.shortcuts import render
-
 # Create your views here.
 from backend.questiones import *
 import os
@@ -50,9 +49,9 @@ def login(request):
 # 自己测的13题,不用管
 def test(request):
     if request.method == 'GET':
-        q13 = request.GET.get('13')
-        q13_score=questionUtils.Q13score(q13,'get').getScore()
-        print(q13_score)
+        q8 = request.GET.get('8')
+        q8_score = questionUtils.Q8score(q8, 'get').getScore()
+        print(q8_score)
     return HttpResponse()
 
 
@@ -79,11 +78,14 @@ def multifile(request):
         models.Q2Res.objects.filter(openid=openId).update(score=q2_score)
 
         # 第7题计算分数并将分数与答案存入数据库
-
+        q7_score = questionUtils.Q7score.getScore(q7)
+        print('第7题得分：' + str(q7_score))
         # 第8题计算分数并将分数与答案存入数据库
+        q8_score = questionUtils.Q8score.getScore(q8)
+        print('第8题得分：' + str(q8_score))
 
         # 第13题计算分数并将分数与答案存入数据库,Q13score存储结果到MySQL
-        q13_score=questionUtils.Q13score(q13,openId).getScore()
+        q13_score = questionUtils.Q13score(q13, openId).getScore()
         print('第13题得分：' + str(q13_score))
 
 
