@@ -1,6 +1,6 @@
 # @Time    : 2020/12/12 17:06
 # @Author  : Cosmos
-# @Site    : 
+# @Site    :
 # @File    : questionUtils.py
 # @Software: PyCharm
 
@@ -35,28 +35,58 @@ class Q2score:
 
 
 class Q7score:
-    def __init__(self, response_json):
+    def __init__(self, response_json, openID):
         self.score = 0
         self.response_json = response_json
+        self.openID = openID
 
     def getScore(self):
         # 第一步：先将response_json反序列化为对象
-
+        ans_dic = json.loads(self.response_json)
         # 第二步：按每道题的判分逻辑进行判分，把结果分数赋值给score
-
+        print(ans_dic)
+        question_answer = ans_dic['question_answer']
+        # print(type(question_answer))
+        # print(question_answer[0])
+        # print(type(question_answer[0]))
+        question_text = ans_dic['question_text']
+        # print(type(question_text))
+        for i in range(20):
+            if question_text[i] == '1' and question_answer[i] == 1:
+                # print(question_answer[i])
+                self.score += 1
+        models.Q7Res.objects.update_or_create(
+            defaults={'result_sequence': str(question_text) + str(question_answer),'score': self.score},
+                                                                                      openid = self.openID)
+        print(self.score)
         return self.score
 
 
 class Q8score:
-    def __init__(self, response_json):
+    def __init__(self, response_json,openid):
         self.score = 0
         self.response_json = response_json
-
+        self.openid = openid
     def getScore(self):
         # 第一步：先将response_json反序列化为对象
-
+        ans_dic = json.loads(self.response_json)
         # 第二步：按每道题的判分逻辑进行判分，把结果分数赋值给score
-
+        ans1 = ans_dic['a']
+        ans2 = ans_dic['b']
+        ans3 = ans_dic['c']
+        ans4 = ans_dic['d']
+        if ans1 == 93:
+            self.score += 1
+        if ans2 == 86:
+            self.score += 1
+        if ans3 == 79:
+            self.score += 1
+        if ans4 == 72:
+            self.score += 1
+        res = str(ans1)+"|"+str(ans2)+"|"+str(ans3)+"|"+str(ans4)
+        models.Q8Res.objects.update_or_create(
+            defaults={'result' : res, 'score' : self.score},
+                                        openid = self.openid)
         return self.score
 
 
@@ -81,10 +111,12 @@ class Q13score:
         # 判断周几
         self.score += (1 if str(patient_ans['week']) == str(correct_ans['day']) else 0)
         # 判断地点
-        similarity = difflib.SequenceMatcher(None, patient_ans['loc'], correct_ans['loc']).quick_ratio()
+        similarity = difflib.SequenceMatcher(
+            None, patient_ans['loc'], correct_ans['loc']).quick_ratio()
         self.score += (1 if similarity > 0.5 else 0)
         # 判断城市
-        similarity = difflib.SequenceMatcher(None, patient_ans['city'], correct_ans['city']).quick_ratio()
+        similarity = difflib.SequenceMatcher(
+            None, patient_ans['city'], correct_ans['city']).quick_ratio()
         self.score += (1 if similarity > 0.5 else 0)
         models.Q13Res.objects.update_or_create(
             defaults={'answer_string': patient_ans, 'realAnswer_string': correct_ans, 'score': self.score},

@@ -7,5 +7,5 @@ urlpatterns = [
     path('sdsResolve/', views.sdsResolve),
     path('getOpenid/', views.getOpenid),
     path('login/', views.login),
-    # path('test/', views.test) # 13题测试入口不用管
+     path('test/', views.test) # 13题测试入口不用管
 ]
