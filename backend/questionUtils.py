@@ -5,7 +5,7 @@
 # @Software: PyCharm
 
 # import speech_recognition as sr
-# from backend.AI_module.prediction import predict_picture
+from backend.AI_module.prediction import predict_picture
 import json
 import difflib
 
@@ -121,6 +121,36 @@ class Q13score:
         models.Q13Res.objects.update_or_create(
             defaults={'answer_string': patient_ans, 'realAnswer_string': correct_ans, 'score': self.score},
             openid=self.openID)
+        return self.score
+
+
+class B_Q1score:
+    def __init__(self):
+        self.score = 0
+        # 判分需要的其他信息
+
+    def getScore(self):
+        # 判分逻辑
+        return self.score
+
+
+class B_Q4score:
+    def __init__(self):
+        self.score = 0
+        # 判分需要的其他信息
+
+    def getScore(self):
+        # 判分逻辑
+        return self.score
+
+
+class B_Q5score:
+    def __init__(self):
+        self.score = 0
+        # 判分需要的其他信息
+
+    def getScore(self):
+        # 判分逻辑
         return self.score
 
 # 语音转文字的工具类

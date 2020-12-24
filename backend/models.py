@@ -195,3 +195,124 @@ class Q13Res(models.Model):
     answer_string = models.CharField(null=True, max_length=500)
     realAnswer_string = models.CharField(null=True, max_length=500)
     score = models.IntegerField(null=True)
+
+
+'''B卷存储'''
+
+
+# 题目1：连线题，前端传过来的字符串，后端判断后存分数
+class B_Q1Res(models.Model):
+    openid = models.CharField(primary_key=True, max_length=50)
+    score = models.IntegerField(null=True)
+    string_from_patient = models.CharField(max_length=20)
+
+
+# 题目2：即刻回忆,不用计分,不存入数据库
+
+
+# 题目3：流畅性
+class B_Q3Res(models.Model):
+    openid = models.CharField(primary_key=True, max_length=50)
+    filePath = models.TextField(null=True)
+    audio_to_text = models.TextField(null=True)
+    score = models.IntegerField(null=True)
+
+
+# 题目4：定向
+class B_Q4Res(models.Model):
+    openid = models.CharField(primary_key=True, max_length=50)
+    answer_string = models.CharField(null=True, max_length=500)
+    realAnswer_string = models.CharField(null=True, max_length=500)
+    score = models.IntegerField(null=True)
+
+
+# 题目5：计算
+class B_Q5Res(models.Model):
+    openid = models.CharField(primary_key=True, max_length=50)
+    score = models.IntegerField(null=True)
+    answer_string = models.CharField(null=True, max_length=500)
+
+
+# 题目6.1：抽象
+class B_Q6_1Res(models.Model):
+    openid = models.CharField(primary_key=True, max_length=50)
+    filePath = models.TextField(null=True)
+    audio_to_text = models.TextField(null=True)
+    score = models.IntegerField(null=True)
+
+
+# 题目6.2：抽象
+class B_Q6_2Res(models.Model):
+    openid = models.CharField(primary_key=True, max_length=50)
+    filePath = models.TextField(null=True)
+    audio_to_text = models.TextField(null=True)
+    score = models.IntegerField(null=True)
+
+
+# 题目6.3：抽象
+class B_Q6_3Res(models.Model):
+    openid = models.CharField(primary_key=True, max_length=50)
+    filePath = models.TextField(null=True)
+    audio_to_text = models.TextField(null=True)
+    score = models.IntegerField(null=True)
+
+
+# 题目7：延迟回忆
+class B_Q7Res(models.Model):
+    openid = models.CharField(primary_key=True, max_length=50)
+    filePath = models.TextField(null=True)
+    audio_to_text = models.TextField(null=True)
+    sub_score = models.IntegerField(null=True)
+    score = models.IntegerField(null=True)
+
+
+# 题目8：视知觉
+class B_Q8Res(models.Model):
+    openid = models.CharField(primary_key=True, max_length=50)
+    filePath = models.TextField(null=True)
+    audio_to_text = models.TextField(null=True)
+    score = models.IntegerField(null=True)
+
+
+# 题目9：动物命名
+class B_Q9Res(models.Model):
+    openid = models.CharField(primary_key=True, max_length=50)
+    filePath = models.TextField(null=True)
+    audio_to_text = models.TextField(null=True)
+    score = models.IntegerField(null=True)
+
+
+# 题目10.1：注意
+class B_Q10_1Res(models.Model):
+    openid = models.CharField(primary_key=True, max_length=50)
+    filePath = models.TextField(null=True)
+    audio_to_text = models.TextField(null=True)
+    score = models.IntegerField(null=True)
+
+
+# 题目10.2：注意
+class B_Q10_2Res(models.Model):
+    openid = models.CharField(primary_key=True, max_length=50)
+    filePath = models.TextField(null=True)
+    audio_to_text = models.TextField(null=True)
+    end_time = models.CharField(null=True, max_length=50)
+    score = models.IntegerField(null=True)
+
+
+# 每次判分完成之后，将每一题的分数及总分存入该表
+class B_MOCA_History(models.Model):
+    id = models.AutoField(primary_key=True)
+    openid = models.CharField(null=True, max_length=50)
+    date = models.CharField(null=True, max_length=50)
+    Q1_score = models.IntegerField(null=True)
+    Q3_score = models.IntegerField(null=True)
+    Q4_score = models.IntegerField(null=True)
+    Q5_score = models.IntegerField(null=True)
+    Q6_1_score = models.IntegerField(null=True)
+    Q6_2_score = models.IntegerField(null=True)
+    Q7_score = models.IntegerField(null=True)
+    Q8_score = models.IntegerField(null=True)
+    Q9_score = models.IntegerField(null=True)
+    Q10_1_score = models.IntegerField(null=True)
+    Q10_2_score = models.IntegerField(null=True)
+    total_score = models.IntegerField(null=True)
