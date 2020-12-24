@@ -86,7 +86,7 @@ def multifile(request):
 
         # 第12题计算分数并将分数与答案存入数据库,Q13score存储结果到MySQL
         q12_score = questionUtils.Q12score(q12, openId).getScore()
-        print('第13题得分：' + str(q12_score))
+        print('第12题得分：' + str(q12_score))
 
         # 第13题计算分数并将分数与答案存入数据库,Q13score存储结果到MySQL
         q13_score = questionUtils.Q13score(q13, openId).getScore()
