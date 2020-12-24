@@ -185,7 +185,6 @@ class Q12Res(models.Model):
     openid = models.CharField(primary_key=True, max_length=50)
     filePath = models.TextField(null=True)
     audio_to_text = models.TextField(null=True)
-    sub_score = models.IntegerField(null=True)
     score = models.IntegerField(null=True)
 
 
