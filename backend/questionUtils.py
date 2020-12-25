@@ -5,7 +5,7 @@
 # @Software: PyCharm
 
 # import speech_recognition as sr
-# from backend.AI_module.prediction import predict_picture
+from backend.AI_module.prediction import predict_picture
 import json
 import difflib
 
@@ -56,17 +56,18 @@ class Q7score:
                 # print(question_answer[i])
                 self.score += 1
         models.Q7Res.objects.update_or_create(
-            defaults={'result_sequence': str(question_text) + str(question_answer),'score': self.score},
-                                                                                      openid = self.openID)
+            defaults={'result_sequence': str(question_text) + str(question_answer), 'score': self.score},
+            openid=self.openID)
         print(self.score)
         return self.score
 
 
 class Q8score:
-    def __init__(self, response_json,openid):
+    def __init__(self, response_json, openid):
         self.score = 0
         self.response_json = response_json
         self.openid = openid
+
     def getScore(self):
         # 第一步：先将response_json反序列化为对象
         ans_dic = json.loads(self.response_json)
@@ -83,10 +84,31 @@ class Q8score:
             self.score += 1
         if ans4 == 72:
             self.score += 1
-        res = str(ans1)+"|"+str(ans2)+"|"+str(ans3)+"|"+str(ans4)
+        res = str(ans1) + "|" + str(ans2) + "|" + str(ans3) + "|" + str(ans4)
         models.Q8Res.objects.update_or_create(
-            defaults={'result' : res, 'score' : self.score},
-                                        openid = self.openid)
+            defaults={'result': res, 'score': self.score},
+            openid=self.openid)
+        return self.score
+
+
+class Q12score:
+    def __init__(self, response_json, openID):
+        self.score = 0
+        self.correct_ans = ['鼻子', '丝绸', '寺庙', '菊花', '红色']
+        self.response_json = response_json
+        self.openID = openID
+
+    def getScore(self):
+        # 第一步：先将response_json反序列化为对象
+        ans = json.loads(self.response_json)
+        patient_ans = ans['text']
+        # 第二步：按每道题的判分逻辑进行判分，把结果分数赋值给score
+        for item in self.correct_ans:
+            if item in patient_ans:
+                self.score += 1
+        models.Q12Res.objects.update_or_create(
+            defaults={'audio_to_text': patient_ans, 'score': self.score},
+            openid=self.openID)
         return self.score
 
 
@@ -121,6 +143,36 @@ class Q13score:
         models.Q13Res.objects.update_or_create(
             defaults={'answer_string': patient_ans, 'realAnswer_string': correct_ans, 'score': self.score},
             openid=self.openID)
+        return self.score
+
+
+class B_Q1score:
+    def __init__(self):
+        self.score = 0
+        # 判分需要的其他信息
+
+    def getScore(self):
+        # 判分逻辑
+        return self.score
+
+
+class B_Q4score:
+    def __init__(self):
+        self.score = 0
+        # 判分需要的其他信息
+
+    def getScore(self):
+        # 判分逻辑
+        return self.score
+
+
+class B_Q5score:
+    def __init__(self):
+        self.score = 0
+        # 判分需要的其他信息
+
+    def getScore(self):
+        # 判分逻辑
         return self.score
 
 # 语音转文字的工具类

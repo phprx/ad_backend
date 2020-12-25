@@ -49,9 +49,9 @@ def login(request):
 # 自己测的13题,不用管
 def test(request):
     if request.method == 'GET':
-        q8 = request.GET.get('8')
-        q8_score = questionUtils.Q8score(q8, 'get').getScore()
-        print(q8_score)
+        q12 = request.GET.get('12')
+        q12_score = questionUtils.Q12score(q12, 'get').getScore()
+        print(q12_score)
     return HttpResponse()
 
 
@@ -83,6 +83,10 @@ def multifile(request):
         # 第8题计算分数并将分数与答案存入数据库
         q8_score = questionUtils.Q8score.getScore(q8)
         print('第8题得分：' + str(q8_score))
+
+        # 第12题计算分数并将分数与答案存入数据库,Q13score存储结果到MySQL
+        q12_score = questionUtils.Q12score(q12, openId).getScore()
+        print('第12题得分：' + str(q12_score))
 
         # 第13题计算分数并将分数与答案存入数据库,Q13score存储结果到MySQL
         q13_score = questionUtils.Q13score(q13, openId).getScore()
@@ -200,4 +204,103 @@ def sdsResolve(request):
             models.Scale.objects.update_or_create(defaults={'sas_score': score}, id=openId)
         elif type_id == '104':
             models.Scale.objects.update_or_create(defaults={'sds_score': score}, id=openId)
+    return HttpResponse()
+
+
+def multifile2(request):
+    print('access successfully')
+    # GET请求用于获取前端传值（非文件类型请求），并完成每道题的打分。
+    # 通过questionUtils中针对每道题设计的打分类提供的getScore()方法给出分值。
+    if request.method == 'GET':
+        q1 = request.GET.get('1')
+        q4 = request.GET.get('4')
+        q5 = request.GET.get('5')
+        openId = request.GET.get('openId')
+
+        # 第1题计算分数并将分数与答案存入数据库
+
+
+        # 第4题计算分数存入数据库
+
+
+        # 第5题计算分数并将分数与答案存入数据库
+
+
+
+
+    # POST请求用于传输文件（前端首先使用POST方法上传所有文件数据到服务器）
+    else:
+        n = str(request.POST.get('NUMBER'))
+        openid = request.POST.get('openid')
+        print("openid" + " " + str(openid))
+        print('第' + n + '个文件上传成功')
+        if not os.path.exists('moca_b/' + 'png_resource' + '/'):
+            os.makedirs('moca_b/' + 'png_resource' + '/')
+        if not os.path.exists('moca_b/' + 'mp3_resource' + '/'):
+            os.makedirs('moca_b/' + 'mp3_resource' + '/')
+        report_file = request.FILES.get('file')
+        timestamp = str(round(time.time()))
+
+        '''B卷上传的全是录音'''
+        fileType = 'mp3'
+
+        '''n为前端setStorage时的序号，index为每题对应的题号'''
+        index = None
+        if int(n) == 0:
+            index = '2'
+        elif int(n) == 1:
+            index = '3'
+        elif int(n) == 2:
+            index = '6.1'
+        elif int(n) == 3:
+            index = '6.2'
+        elif int(n) == 4:
+            index = '6.3'
+        elif int(n) == 5:
+            index = '7'
+        elif int(n) == 6:
+            index = '8'
+        elif int(n) == 7:
+            index = '9'
+        elif int(n) == 8:
+            index = '10.1'
+        elif int(n) == 9:
+            index = '10.2'
+        name = index + '_' + timestamp + '.' + fileType
+        path = 'moca_b/' + fileType + '_resource' + '/'
+        fw = open(path + name, 'wb+')
+        for chunk in report_file.chunks():
+            fw.write(chunk)
+        fw.close()
+        print("finished writing file")
+        print(index, type(index))
+        print("\n")
+
+        if index == '3':
+            print("question3:" + path + name)
+            models.B_Q3Res.objects.update_or_create(defaults={'filePath': path + name}, openid=openid)
+        elif index == '6.1':
+            print("question6.1:" + path + name)
+            models.B_Q6_1Res.objects.update_or_create(defaults={'filePath': path + name}, openid=openid)
+        elif index == '6.2':
+            print("question6.2:" + path + name)
+            models.B_Q6_2Res.objects.update_or_create(defaults={'filePath': path + name}, openid=openid)
+        elif index == '6.3':
+            print("question6.3:" + path + name)
+            models.B_Q6_3Res.objects.update_or_create(defaults={'normal_audio_filePath': path + name}, openid=openid)
+        elif index == '7':
+            print("question7:" + path + name)
+            models.B_Q7Res.objects.update_or_create(defaults={'reverse_audio_filePath': path + name}, openid=openid)
+        elif index == '8':
+            print("question8:" + path + name)
+            models.B_Q8Res.objects.update_or_create(defaults={'filePath': path + name}, openid=openid)
+        elif index == '9':
+            print("question9:" + path + name)
+            models.B_Q9Res.objects.update_or_create(defaults={'filePath': path + name}, openid=openid)
+        elif index == '10.1':
+            print("question10.1:" + path + name)
+            models.B_Q10_1Res.objects.update_or_create(defaults={'filePath': path + name}, openid=openid)
+        elif index == '10.2':
+            print("question10.2:" + path + name)
+            models.B_Q10_2Res.objects.update_or_create(defaults={'filePath': path + name}, openid=openid)
     return HttpResponse()
