@@ -195,3 +195,4 @@ class Q13Res(models.Model):
     answer_string = models.CharField(null=True, max_length=500)
     realAnswer_string = models.CharField(null=True, max_length=500)
     score = models.IntegerField(null=True)
+
