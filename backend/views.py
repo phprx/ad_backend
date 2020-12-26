@@ -219,6 +219,8 @@ def multifile2(request):
         openId = request.GET.get('openId')
 
         # 第1题计算分数并将分数与答案存入数据库
+        q1_score = questionUtils.B_Q1score(q1, openId).getScore()
+        print('第1题得分：' + str(q1_score))
 
         # 第4题计算分数存入数据库
         q4_score = questionUtils.B_Q4score(q4, openId).getScore()

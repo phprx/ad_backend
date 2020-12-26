@@ -147,12 +147,16 @@ class Q13score:
 
 
 class B_Q1score:
-    def __init__(self):
+    def __init__(self, anwstring, openID):
         self.score = 0
-        # 判分需要的其他信息
+        self.string = '1一2二3三4四5五6六'
+        self.anwstring = anwstring
+        self.openID = openID
 
     def getScore(self):
-        # 判分逻辑
+        if self.anwstring == self.string:
+            self.score = 1
+        models.B_Q1Res.objects.update_or_create(defaults={'string_from_patient': self.anwstring, 'score': self.score}, openid=self.openID)
         return self.score
 
 
