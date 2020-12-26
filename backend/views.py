@@ -49,9 +49,9 @@ def login(request):
 # 自己测的13题,不用管
 def test(request):
     if request.method == 'GET':
-        q12 = request.GET.get('12')
-        q12_score = questionUtils.Q12score(q12, 'get').getScore()
-        print(q12_score)
+        q7 = request.GET.get('7')
+        q7_score = questionUtils.B_Q7score(q7, "get").getScore()
+        print('第7题得分：' + str(q7_score))
     return HttpResponse()
 
 
@@ -215,16 +215,20 @@ def multifile2(request):
         q1 = request.GET.get('1')
         q4 = request.GET.get('4')
         q5 = request.GET.get('5')
+        q7 = request.GET.get('7')
         openId = request.GET.get('openId')
 
         # 第1题计算分数并将分数与答案存入数据库
 
-
         # 第4题计算分数存入数据库
-
+        q4_score = questionUtils.B_Q4score(q4, openId).getScore()
+        print('第4题得分：' + str(q4_score))
 
         # 第5题计算分数并将分数与答案存入数据库
 
+        # 第7题计算分数并将分数与答案存入数据库
+        q7_score = questionUtils.B_Q7score(q7, openId).getScore()
+        print('第7题得分：' + str(q7_score))
 
 
 
