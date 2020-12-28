@@ -215,16 +215,22 @@ def multifile2(request):
         q1 = request.GET.get('1')
         q4 = request.GET.get('4')
         q5 = request.GET.get('5')
+        q7 = request.GET.get('7')
         openId = request.GET.get('openId')
 
         # 第1题计算分数并将分数与答案存入数据库
-
+        q1_score = questionUtils.B_Q1score(q1, openId).getScore()
+        print('第1题得分：' + str(q1_score))
 
         # 第4题计算分数存入数据库
-
+        q4_score = questionUtils.B_Q4score(q4, openId).getScore()
+        print('第4题得分：' + str(q4_score))
 
         # 第5题计算分数并将分数与答案存入数据库
 
+        # 第7题计算分数并将分数与答案存入数据库
+        q7_score = questionUtils.B_Q7score(q7, openId).getScore()
+        print('第7题得分：' + str(q7_score))
 
 
 
