@@ -49,9 +49,9 @@ def login(request):
 # 自己测的13题,不用管
 def test(request):
     if request.method == 'GET':
-        bq5 = request.GET.get('b5')
-        bq5_score = questionUtils.B_Q5score(bq5, 'get').getScore()
-        print(bq5_score)
+        q5 = request.GET.get('5')
+        q5_score = questionUtils.B_Q5score(q5, 'get').getScore()
+        print(q5_score)
     return HttpResponse()
 
 
