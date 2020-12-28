@@ -1,12 +1,12 @@
 import os
-# from PIL import Image
-# import numpy as np
-# from keras.utils import np_utils
-# from keras.models import Sequential
-# from keras.layers.core import Dense, Dropout, Activation, Flatten
-# from keras.optimizers import SGD, RMSprop, Adam
-# from keras.layers import Conv2D, MaxPooling2D
-# import keras
+from PIL import Image
+import numpy as np
+from keras.utils import np_utils
+from keras.models import Sequential
+from keras.layers.core import Dense, Dropout, Activation, Flatten
+from keras.optimizers import SGD, RMSprop, Adam
+from keras.layers import Conv2D, MaxPooling2D
+import keras
 
 
 # 找到所需要的图像文件并进行格式转换
