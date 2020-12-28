@@ -227,7 +227,7 @@ def multifile2(request):
         print('第4题得分：' + str(q4_score))
 
         # 第5题计算分数并将分数与答案存入数据库
-        q5_score = questionUtils.B_Q5score(q5, 'get').getScore()
+        q5_score = questionUtils.B_Q5score(q5, openId).getScore()
         print(q5_score)
 
         # 第7题计算分数并将分数与答案存入数据库
