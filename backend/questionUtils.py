@@ -49,8 +49,8 @@ class Q6_1score:
         if '18496' in patient_ans:
             self.score = 1
 
-        models.Q6_1Res.objects.update_or_create(
-            defaults={'audio_to_text': patient_ans, 'score': self.score},
+        models.Q6Res.objects.update_or_create(
+            defaults={'normal_text': patient_ans, 'normal_score': self.score},
             openid=self.openID)
         return self.score
 
@@ -70,8 +70,8 @@ class Q6_2score:
         if '481' in patient_ans:
             self.score = 1
 
-        models.Q6_2Res.objects.update_or_create(
-            defaults={'audio_to_text': patient_ans, 'score': self.score},
+        models.Q6Res.objects.update_or_create(
+            defaults={'reverse_text': patient_ans, 'reverse_score': self.score},
             openid=self.openID)
         return self.score
 
@@ -184,6 +184,7 @@ class Q11_1score:
             defaults={'audio_to_text': patient_ans, 'score': self.score},
             openid=self.openID)
         return self.score
+
 
 class Q11_2score:
     def __init__(self, response_json, openID):
