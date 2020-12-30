@@ -33,6 +33,47 @@ class Q2score:
             self.score = 1
         return self.score
 
+class Q6_1score:
+    def __init__(self, response_json, openID):
+        self.score = 0
+        # self.correct_ans = ['一', '八', '四', '九', '六']
+        self.response_json = response_json
+        self.openID = openID
+
+    def getScore(self):
+        # 第一步：先将response_json反序列化为对象
+        ans = json.loads(self.response_json)
+        patient_ans = ans['text']
+        # 第二步：按每道题的判分逻辑进行判分，把结果分数赋值给score
+        i = 0
+        if '18496' in patient_ans:
+            self.score = 1
+
+        models.Q6_1Res.objects.update_or_create(
+            defaults={'audio_to_text': patient_ans, 'score': self.score},
+            openid=self.openID)
+        return self.score
+
+
+class Q6_2score:
+    def __init__(self, response_json, openID):
+        self.score = 0
+        self.response_json = response_json
+        self.openID = openID
+
+    def getScore(self):
+        # 第一步：先将response_json反序列化为对象
+        ans = json.loads(self.response_json)
+        patient_ans = ans['text']
+        # 第二步：按每道题的判分逻辑进行判分，把结果分数赋值给score
+        i = 0
+        if '481' in patient_ans:
+            self.score = 1
+
+        models.Q6_2Res.objects.update_or_create(
+            defaults={'audio_to_text': patient_ans, 'score': self.score},
+            openid=self.openID)
+        return self.score
 
 class Q7score:
     def __init__(self, response_json, openID):
@@ -88,6 +129,78 @@ class Q8score:
         models.Q8Res.objects.update_or_create(
             defaults={'result': res, 'score': self.score},
             openid=self.openid)
+        return self.score
+
+class Q9_1score:
+    def __init__(self, response_json, openID):
+        self.score = 0
+        self.response_json = response_json
+        self.openID = openID
+
+    def getScore(self):
+        # 第一步：先将response_json反序列化为对象
+        ans = json.loads(self.response_json)
+        patient_ans = ans['text']
+        # 第二步：按每道题的判分逻辑进行判分，把结果分数赋值给score
+        if patient_ans == '我只知道今天张亮是来帮过忙的人':
+            self.score = 1
+        models.Q9_1Res.objects.update_or_create(
+            defaults={'audio_to_text': patient_ans, 'score': self.score},
+            openid=self.openID)
+        return self.score
+
+class Q9_2score:
+    def __init__(self, response_json, openID):
+        self.score = 0
+        self.response_json = response_json
+        self.openID = openID
+
+    def getScore(self):
+        # 第一步：先将response_json反序列化为对象
+        ans = json.loads(self.response_json)
+        patient_ans = ans['text']
+        # 第二步：按每道题的判分逻辑进行判分，把结果分数赋值给score
+        if patient_ans == '狗在房间的时候猫总是躲在沙发下面':
+            self.score = 1
+        models.Q9_2Res.objects.update_or_create(
+            defaults={'audio_to_text': patient_ans, 'score': self.score},
+            openid=self.openID)
+        return self.score
+
+class Q11_1score:
+    def __init__(self, response_json, openID):
+        self.score = 0
+        self.response_json = response_json
+        self.openID = openID
+
+    def getScore(self):
+        # 第一步：先将response_json反序列化为对象
+        ans = json.loads(self.response_json)
+        patient_ans = ans['text']
+        # 第二步：按每道题的判分逻辑进行判分，把结果分数赋值给score
+        if '交通工具' in patient_ans:
+            self.score = 1
+        models.Q11_1Res.objects.update_or_create(
+            defaults={'audio_to_text': patient_ans, 'score': self.score},
+            openid=self.openID)
+        return self.score
+
+class Q11_2score:
+    def __init__(self, response_json, openID):
+        self.score = 0
+        self.response_json = response_json
+        self.openID = openID
+
+    def getScore(self):
+        # 第一步：先将response_json反序列化为对象
+        ans = json.loads(self.response_json)
+        patient_ans = ans['text']
+        # 第二步：按每道题的判分逻辑进行判分，把结果分数赋值给score
+        if '测量工具' in patient_ans:
+            self.score = 1
+        models.Q11_2Res.objects.update_or_create(
+            defaults={'audio_to_text': patient_ans, 'score': self.score},
+            openid=self.openID)
         return self.score
 
 
@@ -231,6 +344,59 @@ class B_Q5score:
             openid=self.openID)
         return self.score
 
+class B_Q6_1score:
+    def __init__(self, response_json, openID):
+        self.score = 0
+        self.response_json = response_json
+        self.openID = openID
+
+    def getScore(self):
+        # 第一步：先将response_json反序列化为对象
+        ans = json.loads(self.response_json)
+        patient_ans = ans['text']
+        # 第二步：按每道题的判分逻辑进行判分，把结果分数赋值给score
+        if '交通工具' in patient_ans:
+            self.score = 1
+        models.B_Q6_1Res.objects.update_or_create(
+            defaults={'audio_to_text': patient_ans, 'score': self.score},
+            openid=self.openID)
+        return self.score
+
+class B_Q6_2score:
+    def __init__(self, response_json, openID):
+        self.score = 0
+        self.response_json = response_json
+        self.openID = openID
+
+    def getScore(self):
+        # 第一步：先将response_json反序列化为对象
+        ans = json.loads(self.response_json)
+        patient_ans = ans['text']
+        # 第二步：按每道题的判分逻辑进行判分，把结果分数赋值给score
+        if '乐器' in patient_ans:
+            self.score = 1
+        models.B_Q6_2Res.objects.update_or_create(
+            defaults={'audio_to_text': patient_ans, 'score': self.score},
+            openid=self.openID)
+        return self.score
+
+class B_Q6_3score:
+    def __init__(self, response_json, openID):
+        self.score = 0
+        self.response_json = response_json
+        self.openID = openID
+
+    def getScore(self):
+        # 第一步：先将response_json反序列化为对象
+        ans = json.loads(self.response_json)
+        patient_ans = ans['text']
+        # 第二步：按每道题的判分逻辑进行判分，把结果分数赋值给score
+        if '方向' in patient_ans:
+            self.score = 1
+        models.B_Q6_3Res.objects.update_or_create(
+            defaults={'audio_to_text': patient_ans, 'score': self.score},
+            openid=self.openID)
+        return self.score
 
 class B_Q7score:
     def __init__(self, response_json, openID):
