@@ -252,6 +252,7 @@ def multifile2(request):
         q6_2 = request.GET.get('b6.2')
         q6_3 = request.GET.get('b6.3')
         q7 = request.GET.get('7')
+        q10 = request.GET.get('')
         openId = request.GET.get('openId')
 
         # 第1题计算分数并将分数与答案存入数据库
@@ -283,7 +284,6 @@ def multifile2(request):
         # 第7题计算分数并将分数与答案存入数据库
         q7_score = questionUtils.B_Q7score(q7, openId).getScore()
         print('第7题得分：' + str(q7_score))
-
 
 
     # POST请求用于传输文件（前端首先使用POST方法上传所有文件数据到服务器）

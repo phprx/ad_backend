@@ -33,6 +33,7 @@ class Q2score:
             self.score = 1
         return self.score
 
+
 class Q6_1score:
     def __init__(self, response_json, openID):
         self.score = 0
@@ -49,8 +50,8 @@ class Q6_1score:
         if '18496' in patient_ans:
             self.score = 1
 
-        models.Q6_1Res.objects.update_or_create(
-            defaults={'audio_to_text': patient_ans, 'score': self.score},
+        models.Q6Res.objects.update_or_create(
+            defaults={'normal_text': patient_ans, 'normal_score': self.score},
             openid=self.openID)
         return self.score
 
@@ -70,10 +71,11 @@ class Q6_2score:
         if '481' in patient_ans:
             self.score = 1
 
-        models.Q6_2Res.objects.update_or_create(
-            defaults={'audio_to_text': patient_ans, 'score': self.score},
+        models.Q6Res.objects.update_or_create(
+            defaults={'reverse_text': patient_ans, 'reverse_score': self.score},
             openid=self.openID)
         return self.score
+
 
 class Q7score:
     def __init__(self, response_json, openID):
@@ -131,6 +133,7 @@ class Q8score:
             openid=self.openid)
         return self.score
 
+
 class Q9_1score:
     def __init__(self, response_json, openID):
         self.score = 0
@@ -148,6 +151,7 @@ class Q9_1score:
             defaults={'audio_to_text': patient_ans, 'score': self.score},
             openid=self.openID)
         return self.score
+
 
 class Q9_2score:
     def __init__(self, response_json, openID):
@@ -167,6 +171,7 @@ class Q9_2score:
             openid=self.openID)
         return self.score
 
+      
 class Q10_score:
     def __init__(self, response_json, openID):
         self.score = 0
@@ -195,8 +200,6 @@ class Q10_score:
         return self.score
 
 
-
-
 class Q11_1score:
     def __init__(self, response_json, openID):
         self.score = 0
@@ -214,6 +217,7 @@ class Q11_1score:
             defaults={'audio_to_text': patient_ans, 'score': self.score},
             openid=self.openID)
         return self.score
+
 
 class Q11_2score:
     def __init__(self, response_json, openID):
@@ -299,7 +303,8 @@ class B_Q1score:
     def getScore(self):
         if self.anwstring == self.string:
             self.score = 1
-        models.B_Q1Res.objects.update_or_create(defaults={'string_from_patient': self.anwstring, 'score': self.score}, openid=self.openID)
+        models.B_Q1Res.objects.update_or_create(defaults={'string_from_patient': self.anwstring, 'score': self.score},
+                                                openid=self.openID)
         return self.score
 
 class B_Q3score:
@@ -388,18 +393,19 @@ class B_Q5score:
             t_num = tuple(num)
             thisSet.add(t_num)
         print(thisSet)
-        ans_str=""
+        ans_str = ""
         for item in thisSet:
             total = 0
             for i in range(len(item)):
                 total += int(item[i])
-                ans_str =ans_str+item[i]
+                ans_str = ans_str + item[i]
             if total == 13:
                 self.score = self.score + 1
         models.B_Q5Res.objects.update_or_create(
-            defaults={'score': self.score,'answer_string':ans_str},
+            defaults={'score': self.score, 'answer_string': ans_str},
             openid=self.openID)
         return self.score
+
 
 class B_Q6_1score:
     def __init__(self, response_json, openID):
@@ -419,6 +425,7 @@ class B_Q6_1score:
             openid=self.openID)
         return self.score
 
+
 class B_Q6_2score:
     def __init__(self, response_json, openID):
         self.score = 0
@@ -436,6 +443,7 @@ class B_Q6_2score:
             defaults={'audio_to_text': patient_ans, 'score': self.score},
             openid=self.openID)
         return self.score
+
 
 class B_Q6_3score:
     def __init__(self, response_json, openID):
@@ -455,6 +463,7 @@ class B_Q6_3score:
             openid=self.openID)
         return self.score
 
+
 class B_Q7score:
     def __init__(self, response_json, openID):
         self.score = 0
@@ -471,6 +480,78 @@ class B_Q7score:
             if item in patient_ans:
                 self.score += 1
         models.B_Q7Res.objects.update_or_create(
+            defaults={'audio_to_text': patient_ans, 'score': self.score},
+            openid=self.openID)
+        return self.score
+
+
+class B_Q10_1score:
+    def __init__(self, response_json, openID):
+        self.score = 0
+        self.correct_ans = [1, 8, 2, 3, 9, 4, 6, 7, 5]
+        self.response_json = response_json
+        self.openID = openID
+
+    def getScore(self):
+        # 第一步：先将response_json反序列化为对象
+        ans = json.loads(self.response_json)
+        patient_ans = ans['text']
+
+        # 第二步：按每道题的判分逻辑进行判分，把结果分数赋值给score
+        count = 0
+        for item in self.correct_ans:
+            if item not in patient_ans:
+                count = count + 1\
+
+        if count <= 2:
+            self.score = 2
+        elif count == 3:
+            self.score = 1
+        else:
+            self.score = 0
+        models.B_Q10_1Res.objects.update_or_create(
+            defaults={'audio_to_text': patient_ans, 'score': self.score},
+            openid=self.openID)
+        return self.score
+
+
+class B_Q10_2score:
+    def __init__(self, response_json, openID):
+        self.score = 0
+        self.correct_ans = {0: 1, 1: 3, 2: 2, 3: 1, 4: 3, 5: 2, 7: 1, 8: 3, 9: 4}
+        self.response_json = response_json
+        self.openID = openID
+
+    def getScore(self):
+        # 第一步：先将response_json反序列化为对象
+        ans = json.loads(self.response_json)
+        patient_ans = ans['text']
+
+        # 第二步：按每道题的判分逻辑进行判分，把结果分数赋值给score
+        count = 0
+        # 将字符串转换为整型数组
+        patient_ans = list(map(int, patient_ans))
+        patient_ans.sort()
+        # 查询遗漏数字的个数
+        count = 0
+        for elem in patient_ans:
+            if count >= 4:
+                break
+            if elem not in self.correct_ans:
+                count = count + 1
+            else:
+                self.correct_ans[elem] = self.correct_ans[elem] - 1
+
+        for num in self.correct_ans:
+            count += self.correct_ans[num]
+
+        if count <= 2:
+            self.score = 2
+        elif count == 3:
+            self.score = 1
+        else:
+            self.score = 0
+        models.B_Q10_2Res.objects.update_or_create(
             defaults={'audio_to_text': patient_ans, 'score': self.score},
             openid=self.openID)
         return self.score
