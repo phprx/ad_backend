@@ -7,6 +7,7 @@ from django.shortcuts import render
 # Create your views here.
 from backend.questiones import *
 import os
+import time
 
 '''获取openid
     目前的appid为温健的appid'''
@@ -85,11 +86,11 @@ def multifile(request):
         models.Q2Res.objects.filter(openid=openId).update(score=q2_score)
 
         # 第6大题计算分数存入数据库
-        q6_1_score = questionUtils.Q6_1score(q6_1,openId).getScore()
-        print('第6_1得分：'+str(q6_1_score))
+        q6_1_score = questionUtils.Q6_1score(q6_1, openId).getScore()
+        print('第6_1得分：' + str(q6_1_score))
 
-        q6_2_score = questionUtils.Q6_2score(q6_2,openId).getScore()
-        print('第6_2得分：'+str(q6_2_score))
+        q6_2_score = questionUtils.Q6_2score(q6_2, openId).getScore()
+        print('第6_2得分：' + str(q6_2_score))
 
         # 第7题计算分数并将分数与答案存入数据库
         q7_score = questionUtils.Q7score.getScore(q7)
@@ -106,14 +107,14 @@ def multifile(request):
         print('第9_2得分：' + str(q9_2_score))
 
         # 第10题计算分数存入数据库
-        q10_score = questionUtils.Q10_score(q10,openId).getScore()
-        print('第10题得分：'+ str(q10_score))
+        q10_score = questionUtils.Q10_score(q10, openId).getScore()
+        print('第10题得分：' + str(q10_score))
 
         # 第11大题计算分数存入数据库
-        q11_1_score = questionUtils.Q11_1score(q11_1,openId).getScore()
+        q11_1_score = questionUtils.Q11_1score(q11_1, openId).getScore()
         print('第11_1得分：' + str(q11_1_score))
 
-        q11_2_score = questionUtils.Q11_2score(q11_2,openId).getScore()
+        q11_2_score = questionUtils.Q11_2score(q11_2, openId).getScore()
         print('第11_2得分：' + str(q11_2_score))
 
         # 第12题计算分数并将分数与答案存入数据库,Q13score存储结果到MySQL
@@ -245,14 +246,20 @@ def multifile2(request):
     # 通过questionUtils中针对每道题设计的打分类提供的getScore()方法给出分值。
     if request.method == 'GET':
         q1 = request.GET.get('1')
-        q3 = request.GET.get('b3')
+        q3 = request.GET.get('3')
         q4 = request.GET.get('4')
         q5 = request.GET.get('5')
-        q6_1 = request.GET.get('b6.1')
-        q6_2 = request.GET.get('b6.2')
-        q6_3 = request.GET.get('b6.3')
+        q6_1 = request.GET.get('6.1')
+        q6_2 = request.GET.get('6.2')
+        q6_3 = request.GET.get('6.3')
         q7 = request.GET.get('7')
-        q10 = request.GET.get('')
+        q8 = request.GET.get('8')
+        q9_1 = request.GET.get('9.1')
+        q9_2 = request.GET.get('9.2')
+        q9_3 = request.GET.get('9.3')
+        q9_4 = request.GET.get('9.4')
+        q10_1 = request.GET.get('10.1')
+        q10_2 = request.GET.get('10.2')
         openId = request.GET.get('openId')
 
         # 第1题计算分数并将分数与答案存入数据库
@@ -260,7 +267,7 @@ def multifile2(request):
         print('第1题得分：' + str(q1_score))
 
         # 第3题计算分数并将分数与答案存入数据库
-        q3_score = questionUtils.B_Q3score(q3,openId).getScore()
+        q3_score = questionUtils.B_Q3score(q3, openId).getScore()
         print('第3题得分：' + str(q3_score))
 
         # 第4题计算分数存入数据库
@@ -272,19 +279,51 @@ def multifile2(request):
         print('第5题得分：' + str(q5_score))
 
         # 第6大题计算分数并将分数存入数据库
-        q6_1_score = questionUtils.B_Q6_1score(q6_1,openId).getScore()
-        print('第6.1题得分：'+str(q6_1_score))
+        q6_1_score = questionUtils.B_Q6_1score(q6_1, openId).getScore()
+        print('第6.1题得分：' + str(q6_1_score))
 
-        q6_2_score = questionUtils.B_Q6_2score(q6_2,openId).getScore()
-        print('第6.2题得分：'+str(q6_2_score))
+        q6_2_score = questionUtils.B_Q6_2score(q6_2, openId).getScore()
+        print('第6.2题得分：' + str(q6_2_score))
 
-        q6_3_score = questionUtils.B_Q6_3score(q6_3,openId).getScore()
-        print('第6.3题得分：'+str(q6_3_score))
+        q6_3_score = questionUtils.B_Q6_3score(q6_3, openId).getScore()
+        print('第6.3题得分：' + str(q6_3_score))
 
         # 第7题计算分数并将分数与答案存入数据库
         q7_score = questionUtils.B_Q7score(q7, openId).getScore()
         print('第7题得分：' + str(q7_score))
 
+        # 第8题计算分数并将分数与答案存入数据库
+        q8_score = questionUtils.B_Q8score(q8, openId).getScore()
+        print('第8题得分：' + str(q8_score))
+
+        # 第9题计算分数并将分数与答案存入数据库
+        q9_1_score = questionUtils.B_Q9_1score(q9_1, openId).getScore()
+        print('第9.1题得分：' + str(q9_1_score))
+
+        q9_2_score = questionUtils.B_Q9_2score(q9_2, openId).getScore()
+        print('第9.2题得分：' + str(q9_2_score))
+
+        q9_3_score = questionUtils.B_Q9_3score(q9_3, openId).getScore()
+        print('第9.3题得分：' + str(q9_3_score))
+
+        q9_4_score = questionUtils.B_Q9_4score(q9_4, openId).getScore()
+        print('第9.4题得分：' + str(q9_4_score))
+
+        # 第10题计算分数并将分数与答案存入数据库
+        q10_1_score = questionUtils.B_Q10_1score(q10_1, openId).getScore()
+        print('第10.1题得分：' + str(q10_1_score))
+
+        q10_2_score = questionUtils.B_Q10_2score(q10_2, openId).getScore()
+        print('第10.2题得分：' + str(q10_2_score))
+
+        # 将所有题目存入历史记录表
+        models.B_MOCA_History.objects.update_or_create(openid=openId, defaults={
+            'date': time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+            , 'Q1_score': q1_score, 'Q3_score': q3_score, 'Q4_score': q4_score, 'Q5_score': q5_score
+            , 'Q6_score': q6_1_score + q6_2_score + q6_3_score, 'Q7_score': q7_score
+            , 'Q8_score': q8_score, 'Q9_score': q9_1_score + q9_2_score + q9_3_score + q9_4_score
+            , 'Q10_score': q10_1_score + q10_2_score
+            , 'total_score': q1_score + q3_score + q4_score + q5_score + q6_1_score + q6_2_score + q6_3_score + q7_score + q8_score + q9_1_score + q9_2_score + q9_3_score + q9_4_score + q10_1_score + q10_2_score})
 
     # POST请求用于传输文件（前端首先使用POST方法上传所有文件数据到服务器）
     else:
@@ -319,10 +358,16 @@ def multifile2(request):
         elif int(n) == 6:
             index = '8'
         elif int(n) == 7:
-            index = '9'
+            index = '9.1'
         elif int(n) == 8:
-            index = '10.1'
+            index = '9.2'
         elif int(n) == 9:
+            index = '9.3'
+        elif int(n) == 10:
+            index = '9.4'
+        elif int(n) == 11:
+            index = '10.1'
+        elif int(n) == 12:
             index = '10.2'
         name = index + '_' + timestamp + '.' + fileType
         path = 'moca_b/' + fileType + '_resource' + '/'
@@ -337,28 +382,49 @@ def multifile2(request):
         if index == '3':
             print("question3:" + path + name)
             models.B_Q3Res.objects.update_or_create(defaults={'filePath': path + name}, openid=openid)
+            models.B_MOCA_History.objects.update_or_create(openid=openid, defaults={'Q3_file_path': path + name})
         elif index == '6.1':
             print("question6.1:" + path + name)
             models.B_Q6_1Res.objects.update_or_create(defaults={'filePath': path + name}, openid=openid)
+            models.B_MOCA_History.objects.update_or_create(openid=openid, defaults={'Q6_file_path1': path + name})
         elif index == '6.2':
             print("question6.2:" + path + name)
             models.B_Q6_2Res.objects.update_or_create(defaults={'filePath': path + name}, openid=openid)
+            models.B_MOCA_History.objects.update_or_create(openid=openid, defaults={'Q6_file_path2': path + name})
         elif index == '6.3':
             print("question6.3:" + path + name)
-            models.B_Q6_3Res.objects.update_or_create(defaults={'normal_audio_filePath': path + name}, openid=openid)
+            models.B_Q6_3Res.objects.update_or_create(defaults={'filePath': path + name}, openid=openid)
+            models.B_MOCA_History.objects.update_or_create(openid=openid, defaults={'Q6_file_path3': path + name})
         elif index == '7':
             print("question7:" + path + name)
-            models.B_Q7Res.objects.update_or_create(defaults={'reverse_audio_filePath': path + name}, openid=openid)
+            models.B_Q7Res.objects.update_or_create(defaults={'filePath': path + name}, openid=openid)
+            models.B_MOCA_History.objects.update_or_create(openid=openid, defaults={'Q7_file_path': path + name})
         elif index == '8':
             print("question8:" + path + name)
             models.B_Q8Res.objects.update_or_create(defaults={'filePath': path + name}, openid=openid)
-        elif index == '9':
+            models.B_MOCA_History.objects.update_or_create(openid=openid, defaults={'Q8_file_path': path + name})
+        elif index == '9.1':
             print("question9:" + path + name)
-            models.B_Q9Res.objects.update_or_create(defaults={'filePath': path + name}, openid=openid)
+            models.B_Q9Res.objects.update_or_create(defaults={'filePath1': path + name}, openid=openid)
+            models.B_MOCA_History.objects.update_or_create(openid=openid, defaults={'Q9_file_path1': path + name})
+        elif index == '9.2':
+            print("question9:" + path + name)
+            models.B_Q9Res.objects.update_or_create(defaults={'filePath2': path + name}, openid=openid)
+            models.B_MOCA_History.objects.update_or_create(openid=openid, defaults={'Q9_file_path2': path + name})
+        elif index == '9.3':
+            print("question9:" + path + name)
+            models.B_Q9Res.objects.update_or_create(defaults={'filePath3': path + name}, openid=openid)
+            models.B_MOCA_History.objects.update_or_create(openid=openid, defaults={'Q9_file_path3': path + name})
+        elif index == '9.4':
+            print("question9:" + path + name)
+            models.B_Q9Res.objects.update_or_create(defaults={'filePath4': path + name}, openid=openid)
+            models.B_MOCA_History.objects.update_or_create(openid=openid, defaults={'Q9_file_path4': path + name})
         elif index == '10.1':
             print("question10.1:" + path + name)
             models.B_Q10_1Res.objects.update_or_create(defaults={'filePath': path + name}, openid=openid)
+            models.B_MOCA_History.objects.update_or_create(openid=openid, defaults={'Q10_file_path1': path + name})
         elif index == '10.2':
             print("question10.2:" + path + name)
             models.B_Q10_2Res.objects.update_or_create(defaults={'filePath': path + name}, openid=openid)
+            models.B_MOCA_History.objects.update_or_create(openid=openid, defaults={'Q10_file_path2': path + name})
     return HttpResponse()
