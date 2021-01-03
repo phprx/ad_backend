@@ -67,6 +67,7 @@ def multifile(request):
         q8 = request.GET.get('8')
         q9_1 = request.GET.get('9.1')
         q9_2 = request.GET.get('9.2')
+        q10 = request.GET.get('10')
         q11_1 = request.GET.get('11.1')
         q11_2 = request.GET.get('11.2')
         q12 = request.GET.get('12')
@@ -103,6 +104,10 @@ def multifile(request):
 
         q9_2_score = questionUtils.Q9_2score(q9_2, openId).getScore()
         print('第9_2得分：' + str(q9_2_score))
+
+        # 第10题计算分数存入数据库
+        q10_score = questionUtils.Q10_score(q10,openId).getScore()
+        print('第10题得分：'+ str(q10_score))
 
         # 第11大题计算分数存入数据库
         q11_1_score = questionUtils.Q11_1score(q11_1,openId).getScore()
@@ -240,6 +245,7 @@ def multifile2(request):
     # 通过questionUtils中针对每道题设计的打分类提供的getScore()方法给出分值。
     if request.method == 'GET':
         q1 = request.GET.get('1')
+        q3 = request.GET.get('b3')
         q4 = request.GET.get('4')
         q5 = request.GET.get('5')
         q6_1 = request.GET.get('b6.1')
@@ -252,6 +258,10 @@ def multifile2(request):
         # 第1题计算分数并将分数与答案存入数据库
         q1_score = questionUtils.B_Q1score(q1, openId).getScore()
         print('第1题得分：' + str(q1_score))
+
+        # 第3题计算分数并将分数与答案存入数据库
+        q3_score = questionUtils.B_Q3score(q3,openId).getScore()
+        print('第3题得分：' + str(q3_score))
 
         # 第4题计算分数存入数据库
         q4_score = questionUtils.B_Q4score(q4, openId).getScore()

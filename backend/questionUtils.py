@@ -171,6 +171,34 @@ class Q9_2score:
             openid=self.openID)
         return self.score
 
+      
+class Q10_score:
+    def __init__(self, response_json, openID):
+        self.score = 0
+        self.num = 0
+        self.QB = ['虎','牛','狼','鼠','兔','鹿','貂','树懒','斑马','狗','狐','熊','象','豹子','麋鹿','狮子','猪','羊','鸡',
+                   '穿山甲','熊猫','猩猩','海牛','水獭','灵猫','海豚','海象','鸭嘴兽','刺猬','北极狐','无尾熊','北极熊','蛇','马',
+                   '袋鼠','犰狳','河马','海豹','鲸鱼','鼬','龙鱼','塘鳢','鲶鱼','鲨鱼','章鱼','刺鱼目','鲱形目','鲵鳅鱼','猴',
+                   '鳟鱼','锦鲤','鲤鱼','金枪鱼','神仙鱼','鲈鱼','鲑鱼','孔雀鱼','海鸥','天鹅','海狮','企鹅','龟','蜥蜴','蟾蜍',
+                   '蝴蝶','蜻蜓','蝎子','珊瑚','海参','海蜇','海胆','乌贼','孔雀','长颈鹿','鹦鹉','鸟','蚂蚁']
+        self.response_json = response_json
+        self.openID = openID
+
+    def getScore(self):
+        # 第一步：先将response_json反序列化为对象
+        ans = json.loads(self.response_json)
+        patient_ans = ans['text']
+        # 第二步：按每道题的判分逻辑进行判分，把结果分数赋值给score
+        for item in self.QB:
+            if item in patient_ans:
+                self.num += 1
+        if self.num >10:
+            self.score = 1
+        models.Q10Res.objects.update_or_create(
+            defaults={'audio_to_text': patient_ans, 'score': self.score},
+            openid=self.openID)
+        return self.score
+
 
 class Q11_1score:
     def __init__(self, response_json, openID):
@@ -279,6 +307,33 @@ class B_Q1score:
                                                 openid=self.openID)
         return self.score
 
+class B_Q3score:
+    def __init__(self, response_json, openID):
+        self.score = 0
+        self.num = 0
+        self.QB = ['苹果','沙果','海棠','野樱莓','枇杷','欧楂','山楂','梨','温柏','蔷薇果','花楸','杏','樱桃','水蜜桃','油桃','蟠桃','李子',
+                   '梅子','西梅','黑莓','覆盆子','云莓','罗甘莓','草莓','菠萝','甘蔗','圣女果','橘子','砂糖桔','橙子','柠檬','青柠','柚子',
+                   '金桔','葡萄柚','香橼','佛手','指橙','黄皮果','哈密瓜','香瓜','白兰瓜','刺角瓜','金铃子','香蕉','葡萄','提子','蓝莓','蔓越莓',
+                   '越橘','猕猴桃','菠萝','柿子','黑枣','黑柿','桑葚','无花果','菠萝蜜']
+        self.response_json = response_json
+        self.openID = openID
+
+    def getScore(self):
+        # 第一步：先将response_json反序列化为对象
+        ans = json.loads(self.response_json)
+        patient_ans = ans['text']
+        # 第二步：按每道题的判分逻辑进行判分，把结果分数赋值给score
+        for item in self.QB:
+            if item in patient_ans:
+                self.num += 1
+        if self.num > 7 and self.num < 13:
+            self.score = 1
+        elif self.num >12:
+            self.score = 2
+        models.B_Q3Res.objects.update_or_create(
+            defaults={'audio_to_text': patient_ans, 'score': self.score},
+            openid=self.openID)
+        return self.score
 
 class B_Q4score:
     def __init__(self, response_json, openID):
