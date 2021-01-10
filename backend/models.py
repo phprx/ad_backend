@@ -307,6 +307,10 @@ class B_Q10_2Res(models.Model):
 class B_MOCA_History(models.Model):
     id = models.AutoField(primary_key=True)
     openid = models.CharField(null=True, max_length=50)
+    name = models.CharField(null=True, max_length=50)
+    sex = models.CharField(null=True, max_length=50)
+    education = models.IntegerField(null=True)
+    age = models.IntegerField(null=True)
     date = models.CharField(null=True, max_length=50)
     Q1_score = models.IntegerField(null=True)
     Q3_score = models.IntegerField(null=True)

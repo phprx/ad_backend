@@ -261,6 +261,19 @@ def multifile2(request):
         q10_1 = request.GET.get('10.1')
         q10_2 = request.GET.get('10.2')
         openId = request.GET.get('openId')
+        log_info = request.GET.get('loginfo')
+
+
+        # 提取用户信息
+        log_info_dict = json.loads(log_info)
+        name = log_info_dict['name']
+        age = int(log_info_dict['age'])
+        education = int(log_info_dict['education'])
+        sex_flag1 = log_info_dict['1']
+        sex_flag2 = log_info_dict['2']
+        sex = '男'
+        if sex_flag1 == '2' and sex_flag2 == '2':
+            sex = '女'
 
         # 第1题计算分数并将分数与答案存入数据库
         q1_score = questionUtils.B_Q1score(q1, openId).getScore()
@@ -318,7 +331,8 @@ def multifile2(request):
 
         # 将所有题目存入历史记录表
         models.B_MOCA_History.objects.update_or_create(openid=openId, defaults={
-            'date': time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+            'name': name, 'sex': sex, 'age': age, 'education': education
+            , 'date': time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
             , 'Q1_score': q1_score, 'Q3_score': q3_score, 'Q4_score': q4_score, 'Q5_score': q5_score
             , 'Q6_score': q6_1_score + q6_2_score + q6_3_score, 'Q7_score': q7_score
             , 'Q8_score': q8_score, 'Q9_score': q9_1_score + q9_2_score + q9_3_score + q9_4_score
