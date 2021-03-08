@@ -329,7 +329,7 @@ class B_Q3score:
                 openid=self.openID)
             return self.score
         ans = json.loads(self.response_json)
-        patient_ans = ans['text']
+        patient_ans = ans['text'][0:-1]
         # 第二步：按每道题的判分逻辑进行判分，把结果分数赋值给score
         for item in self.QB:
             if item in patient_ans:
@@ -430,7 +430,7 @@ class B_Q6_1score:
                 openid=self.openID)
             return self.score
         ans = json.loads(self.response_json)
-        patient_ans = ans['text']
+        patient_ans = ans['text'][0:-1]
         # 第二步：按每道题的判分逻辑进行判分，把结果分数赋值给score
         if '交通工具' in patient_ans:
             self.score = 1
@@ -454,7 +454,7 @@ class B_Q6_2score:
                 openid=self.openID)
             return self.score
         ans = json.loads(self.response_json)
-        patient_ans = ans['text']
+        patient_ans = ans['text'][0:-1]
         # 第二步：按每道题的判分逻辑进行判分，把结果分数赋值给score
         if '乐器' in patient_ans:
             self.score = 1
@@ -478,7 +478,7 @@ class B_Q6_3score:
                 openid=self.openID)
             return self.score
         ans = json.loads(self.response_json)
-        patient_ans = ans['text']
+        patient_ans = ans['text'][0:-1]
         # 第二步：按每道题的判分逻辑进行判分，把结果分数赋值给score
         if '方向' in patient_ans:
             self.score = 1
@@ -498,7 +498,7 @@ class B_Q7score:
     def getScore(self):
         # 第一步：先将response_json反序列化为对象
         ans = json.loads(self.response_json)
-        patient_ans = ans['text']
+        patient_ans = ans['text'][0:-1]
         # 第二步：按每道题的判分逻辑进行判分，把结果分数赋值给score
         for item in self.correct_ans:
             if item in patient_ans:
@@ -519,7 +519,7 @@ class B_Q8score(object):
     def getScore(self):
         # 第一步：先将response_json反序列化为对象
         ans = json.loads(self.response_json)
-        res = ans['text']
+        res = ans['text'][0:-1]
 
         # 第二步：按每道题的判分逻辑进行判分，把结果分数赋值给score
         count = 0
@@ -548,7 +548,7 @@ class B_Q9_1score:
     def getScore(self):
         # 第一步：先将response_json反序列化为对象
         ans = json.loads(self.response_json)
-        res = ans['text']
+        res = ans['text'][0:-1]
 
         # 第二步：按每道题的判分逻辑进行判分，把结果分数赋值给score
         if self.correct_ans == res:
@@ -578,7 +578,7 @@ class B_Q9_2score:
     def getScore(self):
         # 第一步：先将response_json反序列化为对象
         ans = json.loads(self.response_json)
-        res = ans['text']
+        res = ans['text'][0:-1]
 
         # 第二步：按每道题的判分逻辑进行判分，把结果分数赋值给score
         if self.correct_ans == res:
@@ -608,7 +608,7 @@ class B_Q9_3score:
     def getScore(self):
         # 第一步：先将response_json反序列化为对象
         ans = json.loads(self.response_json)
-        res = ans['text']
+        res = ans['text'][0:-1]
 
         # 第二步：按每道题的判分逻辑进行判分，把结果分数赋值给score
         if self.correct_ans == res:
@@ -638,7 +638,7 @@ class B_Q9_4score:
     def getScore(self):
         # 第一步：先将response_json反序列化为对象
         ans = json.loads(self.response_json)
-        res = ans['text']
+        res = ans['text'][0:-1]
 
         # 第二步：按每道题的判分逻辑进行判分，把结果分数赋值给score
         if self.correct_ans == res:
@@ -668,7 +668,7 @@ class B_Q10_1score:
     def getScore(self):
         # 第一步：先将response_json反序列化为对象
         ans = json.loads(self.response_json)
-        patient_ans = ans['text']
+        patient_ans = ans['text'][0:-1]
 
         # 第二步：按每道题的判分逻辑进行判分，把结果分数赋值给score
         count = 0
@@ -698,7 +698,7 @@ class B_Q10_2score:
     def getScore(self):
         # 第一步：先将response_json反序列化为对象
         ans = json.loads(self.response_json)
-        patient_ans = ans['text']
+        patient_ans = ans['text'][0:-1]
 
         # 第二步：按每道题的判分逻辑进行判分，把结果分数赋值给score
         count = 0

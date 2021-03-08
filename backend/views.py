@@ -263,6 +263,24 @@ def multifile2(request):
         openId = request.GET.get('openId')
         log_info = request.GET.get('loginfo')
 
+        # 测试字段
+        print("-------------------------------测试-------------------------------")
+        test_f = request.GET.get('test')
+        print("测试字段" + test_f)
+        print("q3:" + q3)
+        print("q5:" + q5)
+        print("q6_1:" + q6_1)
+        print("q6_2:" + q6_2)
+        print("q7:" + q7)
+        print("q8:" + q8)
+        print("q9_1:" + q9_1)
+        print("q9_2:" + q9_2)
+        print("q9_3:" + q9_3)
+        print("q9_4:" + q9_4)
+        print("q10_1:" + q10_1)
+        print("q10_2:" + q10_2)
+        print("-------------------------------测试-------------------------------")
+
 
         # 提取用户信息
         log_info_dict = json.loads(log_info)
@@ -330,14 +348,17 @@ def multifile2(request):
         print('第10.2题得分：' + str(q10_2_score))
 
         # 将所有题目存入历史记录表
-        models.B_MOCA_History.objects.update_or_create(openid=openId, defaults={
+        db_dict = {
             'name': name, 'sex': sex, 'age': age, 'education': education
             , 'date': time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
             , 'Q1_score': q1_score, 'Q3_score': q3_score, 'Q4_score': q4_score, 'Q5_score': q5_score
             , 'Q6_score': q6_1_score + q6_2_score + q6_3_score, 'Q7_score': q7_score
             , 'Q8_score': q8_score, 'Q9_score': q9_1_score + q9_2_score + q9_3_score + q9_4_score
             , 'Q10_score': q10_1_score + q10_2_score
-            , 'total_score': q1_score + q3_score + q4_score + q5_score + q6_1_score + q6_2_score + q6_3_score + q7_score + q8_score + q9_1_score + q9_2_score + q9_3_score + q9_4_score + q10_1_score + q10_2_score})
+            , 'total_score': q1_score + q3_score + q4_score + q5_score + q6_1_score + q6_2_score + q6_3_score + q7_score + q8_score + q9_1_score + q9_2_score + q9_3_score + q9_4_score + q10_1_score + q10_2_score}
+        models.B_MOCA_History.objects.update_or_create(openid=openId, defaults=db_dict)
+
+        return HttpResponse(json.dumps(db_dict), content_type="application/json")
 
     # POST请求用于传输文件（前端首先使用POST方法上传所有文件数据到服务器）
     else:
@@ -441,4 +462,4 @@ def multifile2(request):
             print("question10.2:" + path + name)
             models.B_Q10_2Res.objects.update_or_create(defaults={'filePath': path + name}, openid=openid)
             models.B_MOCA_History.objects.update_or_create(openid=openid, defaults={'Q10_file_path2': path + name})
-    return HttpResponse()
+        return HttpResponse()
