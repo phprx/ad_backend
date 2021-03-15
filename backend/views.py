@@ -18,12 +18,12 @@ def getOpenid(request):
     # print(request.session['test'])      # 测试sessionid是否正常使用
     # request.session['test'] = 'session正常使用'  # 测试sessionid是否正常使用
     if request.method == 'GET':
-        # payload = {'appid': 'wx7955e3cc1d058951', 'secret': '1707aa88262e8dc354d91283869ea7a5',
-        #            'js_code': request.GET['code'],
-        #            'grant_type': 'authorization_code'}
-        payload = {'appid': 'wx27a50c62773be8a2', 'secret': '2eab9b7a6e5c17e32d07efb8637770e4',  # 黄鹏测试appid和secret
+        payload = {'appid': 'wx7955e3cc1d058951', 'secret': '71cd4455a542036d8a24886acea852b9',
                    'js_code': request.GET['code'],
                    'grant_type': 'authorization_code'}
+        # payload = {'appid': 'wx27a50c62773be8a2', 'secret': '2eab9b7a6e5c17e32d07efb8637770e4',  # 黄鹏测试appid和secret
+        #            'js_code': request.GET['code'],
+        #            'grant_type': 'authorization_code'}
         ip = 'https://api.weixin.qq.com/sns/jscode2session'
         url = ip + "?appid=" + payload['appid'] + "&secret=" + payload['secret'] + "&js_code=" + payload[
             'js_code'] + "&grant_type=authorization_code"
