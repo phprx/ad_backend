@@ -18,9 +18,12 @@ def getOpenid(request):
     # print(request.session['test'])      # 测试sessionid是否正常使用
     # request.session['test'] = 'session正常使用'  # 测试sessionid是否正常使用
     if request.method == 'GET':
-        payload = {'appid': 'wx7955e3cc1d058951', 'secret': '71cd4455a542036d8a24886acea852b9',
+        payload = {'appid': 'wx62f4a75cf11e063b', 'secret': 'ac7c7f5bfe9fc67d9d20f65a57869eb2',     #钱老师appid和secret
                    'js_code': request.GET['code'],
                    'grant_type': 'authorization_code'}
+        # payload = {'appid': 'wx7955e3cc1d058951', 'secret': '71cd4455a542036d8a24886acea852b9',   # 温健测试appid和secret
+        #            'js_code': request.GET['code'],
+        #            'grant_type': 'authorization_code'}
         # payload = {'appid': 'wx27a50c62773be8a2', 'secret': '2eab9b7a6e5c17e32d07efb8637770e4',  # 黄鹏测试appid和secret
         #            'js_code': request.GET['code'],
         #            'grant_type': 'authorization_code'}
