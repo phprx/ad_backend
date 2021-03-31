@@ -525,7 +525,7 @@ class B_Q8score(object):
         count = 0
         for i in self.correct_ans:
             if i in res:
-                count += count
+                count += 1
         if 4 <= count <= 5:
             self.score = 1
         elif 6 <= count <= 8:
