@@ -18,7 +18,7 @@ def getOpenid(request):
     # print(request.session['test'])      # 测试sessionid是否正常使用
     # request.session['test'] = 'session正常使用'  # 测试sessionid是否正常使用
     if request.method == 'GET':
-        payload = {'appid': 'wx62f4a75cf11e063b', 'secret': 'ac7c7f5bfe9fc67d9d20f65a57869eb2',     #钱老师appid和secret
+        payload = {'appid': 'wx62f4a75cf11e063b', 'secret': 'ac7c7f5bfe9fc67d9d20f65a57869eb2',  # 钱老师appid和secret
                    'js_code': request.GET['code'],
                    'grant_type': 'authorization_code'}
         # payload = {'appid': 'wx7955e3cc1d058951', 'secret': '71cd4455a542036d8a24886acea852b9',   # 温健测试appid和secret
@@ -87,6 +87,21 @@ def multifile(request):
         q2_score = questionUtils.Q2score(models.Q2Res.objects.get(openid=openId).filePath).getScore()
         print('第2题得分：' + str(q2_score))
         models.Q2Res.objects.filter(openid=openId).update(score=q2_score)
+
+        # 第3题
+        print('第3题得分：' + str(q2_score))
+        q3_score = random.randint(1, 3)
+        models.Q3Res.objects.filter(openid=openId).update(score=q3_score)
+
+        # 第4题
+        print('第4题得分：' + str(q2_score))
+        q4_score = random.randint(1, 3)
+        models.Q4Res.objects.filter(openid=openId).update(score=q4_score)
+
+        # 第5题
+        print('第5题得分：' + str(q2_score))
+        q5_score = 0
+        models.Q5Res.objects.filter(openid=openId).update(score=q5_score)
 
         # 第6大题计算分数存入数据库
         q6_1_score = questionUtils.Q6_1score(q6_1, openId).getScore()
@@ -284,7 +299,6 @@ def multifile2(request):
         print("q10_2:" + q10_2)
         print("-------------------------------测试-------------------------------")
 
-
         # 提取用户信息
         log_info_dict = json.loads(log_info)
         name = log_info_dict['name']
@@ -358,7 +372,8 @@ def multifile2(request):
             , 'Q6_score': q6_1_score + q6_2_score + q6_3_score, 'Q7_score': q7_score
             , 'Q8_score': q8_score, 'Q9_score': q9_1_score + q9_2_score + q9_3_score + q9_4_score
             , 'Q10_score': q10_1_score + q10_2_score
-            , 'total_score': q1_score + q3_score + q4_score + q5_score + q6_1_score + q6_2_score + q6_3_score + q7_score + q8_score + q9_1_score + q9_2_score + q9_3_score + q9_4_score + q10_1_score + q10_2_score}
+            ,
+            'total_score': q1_score + q3_score + q4_score + q5_score + q6_1_score + q6_2_score + q6_3_score + q7_score + q8_score + q9_1_score + q9_2_score + q9_3_score + q9_4_score + q10_1_score + q10_2_score}
         models.B_MOCA_History.objects.update_or_create(openid=openId, defaults=db_dict)
 
         return HttpResponse(json.dumps(db_dict), content_type="application/json")

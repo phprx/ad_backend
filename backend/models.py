@@ -95,7 +95,10 @@ class Q2Res(models.Model):
 
 
 # 题目3：画钟
-
+class Q3Res(models.Model):
+    openid = models.CharField(primary_key=True, max_length=50)
+    score = models.IntegerField(null=True)
+    filePath = models.TextField(null=True)
 
 # 题目4：猜动物，前端传语音，后端转文字，保存语音路径和转换后的文字
 class Q4Res(models.Model):
