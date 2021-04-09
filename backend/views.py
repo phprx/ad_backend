@@ -8,6 +8,7 @@ from django.shortcuts import render
 from backend.questiones import *
 import os
 import time
+import random
 
 '''获取openid
     目前的appid为温健的appid'''
@@ -90,17 +91,17 @@ def multifile(request):
 
         # 第3题
         q3_score = random.randint(1, 3)
-		print('第3题得分：' + str(q3_score))
+        print('第3题得分：' + str(q3_score))
         models.Q3Res.objects.filter(openid=openId).update(score=q3_score)
 
         # 第4题
-		q4_score = random.randint(1, 3)
-        print('第4题得分：' + str(q4_score)) 
+        q4_score = random.randint(1, 3)
+        print('第4题得分：' + str(q4_score))
         models.Q4Res.objects.filter(openid=openId).update(score=q4_score)
 
         # 第5题
         q5_score = 0
-		print('第5题得分：' + str(q5_score))
+        print('第5题得分：' + str(q5_score))
         models.Q5Res.objects.filter(openid=openId).update(score=q5_score)
 
         # 第6大题计算分数存入数据库
