@@ -100,6 +100,7 @@ class Q3Res(models.Model):
     score = models.IntegerField(null=True)
     filePath = models.TextField(null=True)
 
+
 # 题目4：猜动物，前端传语音，后端转文字，保存语音路径和转换后的文字
 class Q4Res(models.Model):
     openid = models.CharField(primary_key=True, max_length=50)
@@ -197,6 +198,61 @@ class Q13Res(models.Model):
     answer_string = models.CharField(null=True, max_length=500)
     realAnswer_string = models.CharField(null=True, max_length=500)
     score = models.IntegerField(null=True)
+
+
+# 每次判分完成之后，将每一题的分数及总分存入该表
+class A_MOCA_History(models.Model):
+    id = models.AutoField(primary_key=True)
+    openid = models.CharField(null=True, max_length=50)
+    name = models.CharField(null=True, max_length=50)
+    sex = models.CharField(null=True, max_length=50)
+    education = models.IntegerField(null=True)
+    age = models.IntegerField(null=True)
+    date = models.CharField(null=True, max_length=50)
+
+    Q1_score = models.IntegerField(null=True)
+
+    Q2_score = models.IntegerField(null=True)
+    Q2_file_path = models.TextField(null=True)
+
+    Q3_score = models.IntegerField(null=True)
+    Q3_file_path_circle = models.TextField(null=True)
+    Q3_file_path_number = models.TextField(null=True)
+    Q3_file_path_time = models.TextField(null=True)
+
+    Q4_score = models.IntegerField(null=True)
+    Q4_file_path1 = models.TextField(null=True)
+    Q4_file_path2 = models.TextField(null=True)
+    Q4_file_path3 = models.TextField(null=True)
+
+    Q5_score = models.IntegerField(null=True)
+    Q5_file_path = models.TextField(null=True)
+
+    Q6_score = models.IntegerField(null=True)
+    Q6_file_path1 = models.TextField(null=True)
+    Q6_file_path2 = models.TextField(null=True)
+
+    Q7_score = models.IntegerField(null=True)
+
+    Q8_score = models.IntegerField(null=True)
+
+    Q9_score = models.IntegerField(null=True)
+    Q9_file_path1 = models.TextField(null=True)
+    Q9_file_path2 = models.TextField(null=True)
+
+    Q10_score = models.IntegerField(null=True)
+    Q10_file_path1 = models.TextField(null=True)
+
+    Q11_score = models.IntegerField(null=True)
+    Q11_file_path1 = models.TextField(null=True)
+    Q11_file_path2 = models.TextField(null=True)
+
+    Q12_score = models.IntegerField(null=True)
+    Q12_file_path = models.TextField(null=True)
+
+    Q13_score = models.IntegerField(null=True)
+
+    total_score = models.IntegerField(null=True)
 
 
 '''B卷存储'''

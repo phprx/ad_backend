@@ -34,6 +34,45 @@ class Q2score:
         return self.score
 
 
+class Q4_1score:
+    def __init__(self, response_json):
+        self.score = 0
+        self.response_json = response_json
+
+    def getScore(self):
+        ans = json.loads(self.response_json)
+        patient_ans = ans['text']
+        if patient_ans == "犀牛":
+            self.score += 1
+        return self.score
+
+
+class Q4_2score:
+    def __init__(self, response_json):
+        self.score = 0
+        self.response_json = response_json
+
+    def getScore(self):
+        ans = json.loads(self.response_json)
+        patient_ans = ans['text']
+        if patient_ans == "骆驼":
+            self.score += 1
+        return self.score
+
+
+class Q4_3score:
+    def __init__(self, response_json):
+        self.score = 0
+        self.response_json = response_json
+
+    def getScore(self):
+        ans = json.loads(self.response_json)
+        patient_ans = ans['text']
+        if patient_ans == "老虎":
+            self.score += 1
+        return self.score
+
+
 class Q6_1score:
     def __init__(self, response_json, openID):
         self.score = 0
@@ -674,8 +713,7 @@ class B_Q10_1score:
         count = 0
         for item in self.correct_ans:
             if item not in patient_ans:
-                count = count + 1\
-
+                count = count + 1
         if count <= 2:
             self.score = 2
         elif count == 3:
