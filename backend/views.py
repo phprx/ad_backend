@@ -31,9 +31,6 @@ def getOpenid(request):
         # payload = {'appid': 'wx27a50c62773be8a2', 'secret': '2eab9b7a6e5c17e32d07efb8637770e4',  # 黄鹏测试appid和secret
         #            'js_code': request.GET['code'],
         #            'grant_type': 'authorization_code'}
-        # payload = {'appid': 'wx8e34daffc33a7ec6', 'secret': '0756cb9b40df1a3d631fe92302cb3063',  # 彭appid和secret
-        #            'js_code': request.GET['code'],
-        #            'grant_type': 'authorization_code'}
 
         ip = 'https://api.weixin.qq.com/sns/jscode2session'
         url = ip + "?appid=" + payload['appid'] + "&secret=" + payload['secret'] + "&js_code=" + payload[
