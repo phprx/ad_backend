@@ -19,20 +19,23 @@ def getOpenid(request):
     # print(request.session['test'])      # 测试sessionid是否正常使用
     # request.session['test'] = 'session正常使用'  # 测试sessionid是否正常使用
     if request.method == 'GET':
-        payload = {'appid': 'wx62f4a75cf11e063b', 'secret': 'ac7c7f5bfe9fc67d9d20f65a57869eb2',  # 钱老师appid和secret
+        # payload = {'appid': 'wx62f4a75cf11e063b', 'secret': 'ac7c7f5bfe9fc67d9d20f65a57869eb2',  # 钱老师appid和secret
+        #            'js_code': request.GET['code'],
+        #            'grant_type': 'authorization_code'}
+        payload = {'appid': 'wx8ade12b624222979', 'secret': 'a7442d9f01bb4eb9e52c793f4ad56ecd',  # 温健测试appid和secret
                    'js_code': request.GET['code'],
                    'grant_type': 'authorization_code'}
-        # payload = {'appid': 'wx7955e3cc1d058951', 'secret': '71cd4455a542036d8a24886acea852b9',   # 温健测试appid和secret
+        # payload = {'appid': 'wx35a59e320c43b59b', 'secret': '074ea3d2f6d4970a4098f80a922fae6d',  # 文格格测试appid和secret
         #            'js_code': request.GET['code'],
         #            'grant_type': 'authorization_code'}
         # payload = {'appid': 'wx27a50c62773be8a2', 'secret': '2eab9b7a6e5c17e32d07efb8637770e4',  # 黄鹏测试appid和secret
         #            'js_code': request.GET['code'],
         #            'grant_type': 'authorization_code'}
+
         ip = 'https://api.weixin.qq.com/sns/jscode2session'
         url = ip + "?appid=" + payload['appid'] + "&secret=" + payload['secret'] + "&js_code=" + payload[
             'js_code'] + "&grant_type=authorization_code"
         resp = requests.post(url)
-
         print("wenjianshuaige" + resp.text)
         openid = resp.json()['openid']
         print(openid)
@@ -51,13 +54,10 @@ def login(request):
     return HttpResponse()
 
 
-# 自己测的13题,不用管
-def test(request):
-    if request.method == 'GET':
-        q5 = request.GET.get('5')
-        q5_score = questionUtils.B_Q5score(q5, 'get').getScore()
-        print(q5_score)
-    return HttpResponse()
+# # 自己测的13题,不用管
+# def test(request):
+#     requests.post("https://www.baidu.com")
+#     return HttpResponse()
 
 
 def multifile(request):
@@ -66,18 +66,53 @@ def multifile(request):
     # 通过questionUtils中针对每道题设计的打分类提供的getScore()方法给出分值。
     if request.method == 'GET':
         q1 = request.GET.get('1')
+        q4_1 = request.GET.get('4.1')
+        q4_2 = request.GET.get('4.2')
+        q4_3 = request.GET.get('4.3')
+        q5 = request.GET.get('5')
         q6_1 = request.GET.get('6.1')
         q6_2 = request.GET.get('6.2')
         q7 = request.GET.get('7')
         q8 = request.GET.get('8')
-        q9_1 = request.GET.get('9.1')
-        q9_2 = request.GET.get('9.2')
+        q9_1 = request.GET.get('9.1_1')
+        q9_2 = request.GET.get('9.2_1')
         q10 = request.GET.get('10')
         q11_1 = request.GET.get('11.1')
         q11_2 = request.GET.get('11.2')
         q12 = request.GET.get('12')
         q13 = request.GET.get('13')
         openId = request.GET.get('openId')
+        log_info = request.GET.get('loginfo')
+
+        # ----------------------测试---------------------------
+        print('------------------test------------------------')
+        print("q1:" + q1)
+        print("q1:" + q4_1)
+        print("q1:" + q4_2)
+        print("q1:" + q4_3)
+        print("q5:" + q5)
+        print("q6_1:" + q6_1)
+        print("q6_2:" + q6_2)
+        print("q7:" + q7)
+        print("q8:" + q8)
+        print("q9_1:" + q9_1)
+        print("q9_2:" + q9_2)
+        print("q10:" + q10)
+        print("q11_1:" + q11_1)
+        print("q11_2:" + q11_2)
+        print("q13:" + q13)
+        print('----------------------------------------------')
+        # ------------------------------------------------------
+        # 提取用户信息
+        log_info_dict = json.loads(log_info)
+        name = log_info_dict['name']
+        age = int(log_info_dict['age'])
+        education = int(log_info_dict['education'])
+        sex_flag1 = log_info_dict['1']
+        sex_flag2 = log_info_dict['2']
+        sex = '男'
+        if sex_flag1 == '2' and sex_flag2 == '2':
+            sex = '女'
 
         # 第1题计算分数并将分数与答案存入数据库
         q1_score = questionUtils.Q1score().getScore(q1)
@@ -92,10 +127,11 @@ def multifile(request):
         # 第3题
         q3_score = random.randint(1, 3)
         print('第3题得分：' + str(q3_score))
-        models.Q3Res.objects.filter(openid=openId).update(score=q3_score)
+        models.Q3Res.objects.update_or_create(defaults={'score': q3_score}, openid=openId)
 
         # 第4题
-        q4_score = random.randint(1, 3)
+        q4_score = questionUtils.Q4_1score(q4_1).getScore() + questionUtils.Q4_2score(
+            q4_2).getScore() + questionUtils.Q4_3score(q4_3).getScore()
         print('第4题得分：' + str(q4_score))
         models.Q4Res.objects.filter(openid=openId).update(score=q4_score)
 
@@ -144,6 +180,33 @@ def multifile(request):
         q13_score = questionUtils.Q13score(q13, openId).getScore()
         print('第13题得分：' + str(q13_score))
 
+        print('总分：' + q1_score + q2_score + q3_score + q4_score + q5_score + q6_1_score +
+              q6_2_score + q7_score + q8_score + q9_1_score + q9_2_score + q10_score +
+              q11_1_score + q11_2_score + q12_score + q13_score)
+        # 将所有题目存入历史记录表
+        db_dict = {
+            'name': name, 'sex': sex, 'age': age, 'education': education
+            , 'date': time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+            , 'Q1_score': q1_score
+            , 'Q2_score': q2_score
+            , 'Q3_score': q3_score
+            , 'Q4_score': q4_score
+            , 'Q5_score': q5_score
+            , 'Q6_score': q6_1_score + q6_2_score
+            , 'Q7_score': q7_score
+            , 'Q8_score': q8_score
+            , 'Q9_score': q9_1_score + q9_2_score
+            , 'Q10_score': q10_score
+            , 'Q11_score': q11_1_score + q11_2_score
+            , 'Q12_score': q12_score
+            , 'Q13_score': q13_score
+            , 'total_score': q1_score + q2_score + q3_score + q4_score + q5_score + q6_1_score +
+                             q6_2_score + q7_score + q8_score + q9_1_score + q9_2_score + q10_score +
+                             q11_1_score + q11_2_score + q12_score + q13_score
+        }
+        models.A_MOCA_History.objects.update_or_create(openid=openId, defaults=db_dict)
+
+        return HttpResponse(json.dumps(db_dict), content_type="application/json")
 
 
     # POST请求用于传输文件（前端首先使用POST方法上传所有文件数据到服务器）
@@ -162,7 +225,7 @@ def multifile(request):
         '''区分文件类型'''
         fileType = 'mp3'
 
-        '''n为前端setStorage是的序号，index为每题对应的题号'''
+        '''n为前端setStorage的序号，index为每题对应的题号'''
         index = None
         if int(n) == 0:
             index = '3-1'
