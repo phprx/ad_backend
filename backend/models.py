@@ -209,49 +209,35 @@ class A_MOCA_History(models.Model):
     education = models.IntegerField(null=True)
     age = models.IntegerField(null=True)
     date = models.CharField(null=True, max_length=50)
-
     Q1_score = models.IntegerField(null=True)
-
     Q2_score = models.IntegerField(null=True)
     Q2_file_path = models.TextField(null=True)
-
     Q3_score = models.IntegerField(null=True)
     Q3_file_path_circle = models.TextField(null=True)
     Q3_file_path_number = models.TextField(null=True)
     Q3_file_path_time = models.TextField(null=True)
-
     Q4_score = models.IntegerField(null=True)
     Q4_file_path1 = models.TextField(null=True)
     Q4_file_path2 = models.TextField(null=True)
     Q4_file_path3 = models.TextField(null=True)
-
     Q5_score = models.IntegerField(null=True)
     Q5_file_path = models.TextField(null=True)
-
     Q6_score = models.IntegerField(null=True)
     Q6_file_path1 = models.TextField(null=True)
     Q6_file_path2 = models.TextField(null=True)
-
     Q7_score = models.IntegerField(null=True)
-
     Q8_score = models.IntegerField(null=True)
-
     Q9_score = models.IntegerField(null=True)
     Q9_file_path1 = models.TextField(null=True)
     Q9_file_path2 = models.TextField(null=True)
-
     Q10_score = models.IntegerField(null=True)
     Q10_file_path1 = models.TextField(null=True)
-
     Q11_score = models.IntegerField(null=True)
     Q11_file_path1 = models.TextField(null=True)
     Q11_file_path2 = models.TextField(null=True)
-
     Q12_score = models.IntegerField(null=True)
     Q12_file_path = models.TextField(null=True)
-
     Q13_score = models.IntegerField(null=True)
-
     total_score = models.IntegerField(null=True)
 
 
