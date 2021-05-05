@@ -220,6 +220,8 @@ def multifile(request):
             os.makedirs('moca/' + 'png_resource' + '/')
         if not os.path.exists('moca/' + 'mp3_resource' + '/'):
             os.makedirs('moca/' + 'mp3_resource' + '/')
+        if not os.path.exists('moca/' + 'jpg_resource' + '/'):
+            os.makedirs('moca/' + 'jpg_resource' + '/')
         report_file = request.FILES.get('file')
         timestamp = str(round(time.time()))
 
