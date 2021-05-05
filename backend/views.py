@@ -87,9 +87,9 @@ def multifile(request):
         # ----------------------测试---------------------------
         print('------------------test------------------------')
         print("q1:" + q1)
-        print("q1:" + q4_1)
-        print("q1:" + q4_2)
-        print("q1:" + q4_3)
+        print("q4_1:" + q4_1)
+        print("q4_2:" + q4_2)
+        print("q4_3:" + q4_3)
         print("q5:" + q5)
         print("q6_1:" + q6_1)
         print("q6_2:" + q6_2)
@@ -100,6 +100,7 @@ def multifile(request):
         print("q10:" + q10)
         print("q11_1:" + q11_1)
         print("q11_2:" + q11_2)
+        print("q12:" + q12)
         print("q13:" + q13)
         print('----------------------------------------------')
         # ------------------------------------------------------
@@ -148,10 +149,11 @@ def multifile(request):
         print('第6_2得分：' + str(q6_2_score))
 
         # 第7题计算分数并将分数与答案存入数据库
-        q7_score = questionUtils.Q7score.getScore(q7)
+        q7_score = questionUtils.Q7score(q7, openId).getScore()
         print('第7题得分：' + str(q7_score))
+
         # 第8题计算分数并将分数与答案存入数据库
-        q8_score = questionUtils.Q8score.getScore(q8)
+        q8_score = questionUtils.Q8score(q8, openId).getScore()
         print('第8题得分：' + str(q8_score))
 
         # 第9大题计算分数存入数据库
@@ -180,9 +182,6 @@ def multifile(request):
         q13_score = questionUtils.Q13score(q13, openId).getScore()
         print('第13题得分：' + str(q13_score))
 
-        print('总分：' + q1_score + q2_score + q3_score + q4_score + q5_score + q6_1_score +
-              q6_2_score + q7_score + q8_score + q9_1_score + q9_2_score + q10_score +
-              q11_1_score + q11_2_score + q12_score + q13_score)
         # 将所有题目存入历史记录表
         db_dict = {
             'name': name, 'sex': sex, 'age': age, 'education': education

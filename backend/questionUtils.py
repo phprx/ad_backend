@@ -68,7 +68,7 @@ class Q4_3score:
     def getScore(self):
         ans = json.loads(self.response_json)
         patient_ans = ans['text']
-        if patient_ans == "老虎":
+        if patient_ans == "狮子":
             self.score += 1
         return self.score
 
