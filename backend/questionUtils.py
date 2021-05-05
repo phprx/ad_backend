@@ -138,7 +138,6 @@ class Q7score:
         # 第一步：先将response_json反序列化为对象
         ans_dic = json.loads(self.response_json)
         # 第二步：按每道题的判分逻辑进行判分，把结果分数赋值给score
-        print(ans_dic)
         question_answer = ans_dic['question_answer']
         # print(type(question_answer))
         # print(question_answer[0])
