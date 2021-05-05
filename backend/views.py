@@ -54,10 +54,12 @@ def login(request):
     return HttpResponse()
 
 
-# # 自己测的13题,不用管
-# def test(request):
-#     requests.post("https://www.baidu.com")
-#     return HttpResponse()
+# 自己测的13题,不用管
+def test(request):
+    path=models.Q3Res.objects.get(openid='oCXwD6I1nxTUiCbcGULcoh8HI8Cs').filePath
+    q3_score = questionUtils.Q3score(path).getScore()
+    print(q3_score)
+    return HttpResponse()
 
 
 def multifile(request):
@@ -126,7 +128,7 @@ def multifile(request):
         models.Q2Res.objects.filter(openid=openId).update(score=q2_score)
 
         # 第3题
-        q3_score = random.randint(1, 3)
+        q3_score = questionUtils.Q3score(models.Q3Res.objects.get(openid=openId).filePath).getScore()
         print('第3题得分：' + str(q3_score))
         models.Q3Res.objects.update_or_create(defaults={'score': q3_score}, openid=openId)
 
@@ -228,7 +230,7 @@ def multifile(request):
         index = None
         if int(n) == 0:
             index = '3-1'
-            fileType = 'png'
+            fileType = 'jpg'
         elif int(n) == 1:
             index = '3-2'
             fileType = 'png'
@@ -271,6 +273,9 @@ def multifile(request):
         if index == '2':
             print("question2:" + path + name)
             models.Q2Res.objects.update_or_create(defaults={'filePath': path + name}, openid=openid)
+        elif index == '3-1':
+            print("question3-1:" + path + name)
+            models.Q3Res.objects.update_or_create(defaults={'filePath': path + name}, openid=openid)
         elif index == '4':
             print("question4:" + path + name)
             models.Q4Res.objects.update_or_create(defaults={'filePath': path + name}, openid=openid)

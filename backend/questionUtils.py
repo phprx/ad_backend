@@ -6,6 +6,7 @@
 
 # import speech_recognition as sr
 from backend.AI_module.prediction import predict_picture
+from backend.AI_module import judgecircle
 import json
 import difflib
 
@@ -33,6 +34,17 @@ class Q2score:
             self.score = 1
         return self.score
 
+class Q3score:
+    def __init__(self, image_path):
+        self.score = 0
+        self.image_path = image_path
+
+    def getScore(self):
+        # judgecircle.circle().readUrlPicture(self.image_path)
+        Q3=judgecircle.circle()
+        Q3.readUrlPicture(self.image_path)
+        self.score += Q3.judgeCircle()
+        return self.score
 
 class Q4_1score:
     def __init__(self, response_json):
