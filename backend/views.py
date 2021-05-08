@@ -231,38 +231,45 @@ def multifile(request):
         '''n为前端setStorage的序号，index为每题对应的题号'''
         index = None
         if int(n) == 0:
-            index = '3-1'
-            fileType = 'jpg'
-        elif int(n) == 1:
-            index = '3-2'
-            fileType = 'png'
-        elif int(n) == 2:
-            index = '3-3'
-            fileType = 'png'
-        elif int(n) == 3:
             index = '2'
             fileType = 'png'
+        elif int(n) == 1:
+            index = '3-1'
+            fileType = 'png'
+        elif int(n) == 2:
+            index = '3-2'
+            fileType = 'png'
+        elif int(n) == 3:
+            index = '3-3'
+            fileType = 'png'
         elif int(n) == 4:
-            index = '6.1'
+            index = '4.1-1'
         elif int(n) == 5:
-            index = '6.2'
+            index = '4.2-1'
         elif int(n) == 6:
-            index = '12.1'
+            index = '4.3-1'
         elif int(n) == 7:
-            index = '9.1'
+            index = '5-1'
         elif int(n) == 8:
-            index = '9.2'
+            index = '6.1_1'
         elif int(n) == 9:
-            index = '10'
+            index = '6.2_1'
         elif int(n) == 10:
-            index = '11.1'
+            index = '9.1'
         elif int(n) == 11:
-            index = '11.2'
+            index = '9.2'
         elif int(n) == 12:
-            index = '4'
+            index = '10_1'
         elif int(n) == 13:
-            index = '5'
-        name = index + '_' + timestamp + '.' + fileType
+            index = '11.1_1'
+        elif int(n) == 14:
+            index = '11.2_1'
+        elif int(n) == 15:
+            index = '12-1'
+        try:
+            name = index + '_' + timestamp + '.' + fileType
+        except:
+            print(index, timestamp, fileType)
         path = 'moca/' + fileType + '_resource' + '/'
         fw = open(path + name, 'wb+')
         for chunk in report_file.chunks():
