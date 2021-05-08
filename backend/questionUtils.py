@@ -452,12 +452,16 @@ class B_Q5score:
             t_num = tuple(num)
             thisSet.add(t_num)
         print(thisSet)
+
         ans_str = ""
         for item in thisSet:
             total = 0
             for i in range(len(item)):
-                total += int(item[i])
-                ans_str = ans_str + item[i]
+                try:
+                    total += int(item[i])
+                    ans_str = ans_str + item[i]
+                except:
+                    print(item[i])
             if total == 13:
                 self.score = self.score + 1
         models.B_Q5Res.objects.update_or_create(
@@ -719,6 +723,8 @@ class B_Q10_1score:
         # 第一步：先将response_json反序列化为对象
         ans = json.loads(self.response_json)
         patient_ans = ans['text'][0:-1]
+        # 只保留数字
+        patient_ans = filter(str.isdigit, patient_ans)
 
         # 第二步：按每道题的判分逻辑进行判分，把结果分数赋值给score
         count = 0
@@ -748,6 +754,8 @@ class B_Q10_2score:
         # 第一步：先将response_json反序列化为对象
         ans = json.loads(self.response_json)
         patient_ans = ans['text'][0:-1]
+        # 只保留数字
+        patient_ans = filter(str.isdigit, patient_ans)
 
         # 第二步：按每道题的判分逻辑进行判分，把结果分数赋值给score
         count = 0
