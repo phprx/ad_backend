@@ -136,7 +136,10 @@ class Q7score:
 
     def getScore(self):
         # 第一步：先将response_json反序列化为对象
-        ans_dic = json.loads(self.response_json)
+        try:
+            ans_dic = json.loads(self.response_json)
+        except:
+            print('对象为空！')
         # 第二步：按每道题的判分逻辑进行判分，把结果分数赋值给score
         question_answer = ans_dic['question_answer']
         # print(type(question_answer))
@@ -144,10 +147,17 @@ class Q7score:
         # print(type(question_answer[0]))
         question_text = ans_dic['question_text']
         # print(type(question_text))
+        wrong_time = 0
+        self.score = 0
         for i in range(20):
-            if question_text[i] == '1' and question_answer[i] == 1:
+            if question_text[i] == '1' and question_answer[i] != 1:
                 # print(question_answer[i])
-                self.score += 1
+                # self.score += 1
+                wrong_time += 1
+            if question_text[i] != '1' and question_answer[i] == 1 :
+                wrong_time += 1
+        if wrong_time < 2:
+            self.score = 1
         models.Q7Res.objects.update_or_create(
             defaults={'result_sequence': str(question_text) + str(question_answer), 'score': self.score},
             openid=self.openID)
