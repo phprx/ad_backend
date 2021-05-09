@@ -56,9 +56,10 @@ def login(request):
 
 # 自己测的13题,不用管
 def test(request):
-    path=models.Q3Res.objects.get(openid='oCXwD6I1nxTUiCbcGULcoh8HI8Cs').filePath
-    q3_score = questionUtils.Q3score(path).getScore()
-    print(q3_score)
+    # path=models.Q7Res.objects.get(openid='oCXwD6I1nxTUiCbcGULcoh8HI8Cs').filePath
+    q7 = request.GET.get('7')
+    q7_score = questionUtils.Q7score(q7,"asdasd").getScore()
+    print(q7_score)
     return HttpResponse()
 
 
@@ -151,7 +152,10 @@ def multifile(request):
         print('第6_2得分：' + str(q6_2_score))
 
         # 第7题计算分数并将分数与答案存入数据库
-        q7_score = questionUtils.Q7score(q7, openId).getScore()
+        try:
+            q7_score = questionUtils.Q7score(q7, openId).getScore()
+        except:
+            q7_score = 0
         print('第7题得分：' + str(q7_score))
 
         # 第8题计算分数并将分数与答案存入数据库
