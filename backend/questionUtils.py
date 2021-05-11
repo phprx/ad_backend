@@ -179,14 +179,20 @@ class Q8score:
         ans2 = ans_dic['b']
         ans3 = ans_dic['c']
         ans4 = ans_dic['d']
-        if ans1 == 93:
-            self.score += 1
-        if ans2 == 86:
-            self.score += 1
-        if ans3 == 79:
-            self.score += 1
-        if ans4 == 72:
-            self.score += 1
+        error_cnt = 0
+        if ans1 != "93":
+            print("correct answer" + ans1)
+            error_cnt += 1
+        if ans2 != "86":
+            error_cnt += 1
+        if ans3 != "79":
+            error_cnt += 1
+        if ans4 != "72":
+            error_cnt += 1
+        if error_cnt >= 1:
+            self.score = 0
+        else:
+            self.score = 1
         res = str(ans1) + "|" + str(ans2) + "|" + str(ans3) + "|" + str(ans4)
         models.Q8Res.objects.update_or_create(
             defaults={'result': res, 'score': self.score},

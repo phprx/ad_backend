@@ -57,9 +57,9 @@ def login(request):
 # 自己测的13题,不用管
 def test(request):
     # path=models.Q7Res.objects.get(openid='oCXwD6I1nxTUiCbcGULcoh8HI8Cs').filePath
-    q7 = request.GET.get('7')
-    q7_score = questionUtils.Q7score(q7,"asdasd").getScore()
-    print(q7_score)
+    q8 = request.GET.get('8')
+    q8_score = questionUtils.Q8score(q8,"asdasd").getScore()
+    print(q8_score)
     return HttpResponse()
 
 
